@@ -1,0 +1,23 @@
+export const Colors = {
+  White: '#fff',
+  Black: '#000',
+  Dropdown_Border: '#293D5B',
+  Dark_Gray: '#565656',
+  TextInput_Background: '#F7F7F7',
+  LineGray: '#C4C4C4',
+  Ocean_Blue: '#3C7EAE',
+  Text_Black: '#212B36',
+  BorderGray: '#637381',
+  Light_Ocean_Blue: '#CAE9FF',
+  Border_Light_Gray: '#AFB9C2',
+  Sky_Blue: '#BDE2FD',
+  BlueShade: '#1479BA',
+  Background_Blue: '#56bedb',
+  Gray_CC: '#CCCCCC',
+  Gray_7f: '#7F7F7F',
+  Border_Gray: '#EDECE8',
+  Light_Black: '#505868',
+  Red: 'red',
+  Orange:"#FF8D69",
+  gray:"#F3F4F6"
+};
