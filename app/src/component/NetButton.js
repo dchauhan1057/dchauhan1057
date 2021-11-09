@@ -2,7 +2,7 @@ import React, {useState, useCallback} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 // Library
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import LinearGradient from 'react-native-linear-gradient';
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
 import {Colors} from '../../res/colors/Colors';
@@ -37,9 +37,10 @@ const style = StyleSheet.create({
     marginTop: responsiveHeight(8),
   },
   textStyle: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.8),
     color: Colors.White,
+    fontWeight: '600',
     alignSelf: 'center',
 
     // marginStart: responsiveWidth(4),

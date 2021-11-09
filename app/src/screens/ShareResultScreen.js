@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
+import LinearGradient from 'react-native-linear-gradient';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -40,12 +41,25 @@ const ShareResultScreen = props => {
       <ScrollView bounces={false} contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.container}>
           <View style={styles.slide}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                source={Images.Close_Icon}
+                style={{
+                  height: responsiveWidth(5),
+                  width: responsiveWidth(5),
+                  alignSelf: 'flex-end',
+                  marginStart: responsiveWidth(90),
+                  marginTop: responsiveWidth(5),
+                  marginEnd: responsiveWidth(5),
+                }}
+              />
+            </TouchableOpacity>
             <Image
               style={{
-                height: responsiveWidth(65),
-                width: responsiveWidth(65),
+                height: responsiveWidth(60),
+                width: responsiveWidth(60),
                 tintColor: Colors.Light_Gray,
-                marginTop: responsiveWidth(20),
+                marginTop: responsiveWidth(10),
               }}
               source={Images.share}
               resizeMode={'contain'}
@@ -62,10 +76,10 @@ const ShareResultScreen = props => {
             touchableStyle={{
               width: responsiveWidth(80),
               backgroundColor: Colors.gray,
-              marginTop: responsiveWidth(4),
+              marginTop: responsiveWidth(2),
             }}
             textStyle={{
-              fontFamily: fontFamily.Roboto_Medium,
+              fontFamily: fontFamily.Poppins_Medium,
               fontSize: responsiveFontSize(1.8),
               color: Colors.Black,
               alignSelf: 'center',
@@ -80,7 +94,7 @@ const ShareResultScreen = props => {
               marginTop: responsiveWidth(4),
             }}
             textStyle={{
-              fontFamily: fontFamily.Roboto_Medium,
+              fontFamily: fontFamily.Poppins_Medium,
               fontSize: responsiveFontSize(1.8),
               color: Colors.Black,
               alignSelf: 'center',
@@ -95,7 +109,7 @@ const ShareResultScreen = props => {
               marginTop: responsiveWidth(4),
             }}
             textStyle={{
-              fontFamily: fontFamily.Roboto_Medium,
+              fontFamily: fontFamily.Poppins_Medium,
               fontSize: responsiveFontSize(1.8),
               color: Colors.White,
               alignSelf: 'center',
@@ -125,26 +139,26 @@ const styles = StyleSheet.create({
   skipText: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(1.6),
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
   },
   text: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(3),
-    fontFamily: fontFamily.Roboto_Bold,
-    marginTop: responsiveWidth(20),
+    fontFamily: fontFamily.Poppins_Bold,
+    marginTop: responsiveWidth(10),
     width: responsiveWidth(70),
     textAlign: 'center',
   },
   bigtext: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(3),
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     marginTop: responsiveWidth(10),
   },
   textsmall: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     marginTop: responsiveWidth(5),
     width: responsiveWidth(90),
     textAlign: 'center',

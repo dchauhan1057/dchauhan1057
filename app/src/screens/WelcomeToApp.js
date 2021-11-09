@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import LinearGradient from 'react-native-linear-gradient';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -74,19 +74,19 @@ const WelcomeToApp = ({props, route}) => {
             onPress={() => navigation.navigate('LoginScreen')}
             text={Strings.SignUpMobile}
             touchableStyle={{
-              backgroundColor: Colors.White,
+              backgroundColor: Colors.gray,
               width: '85%',
               marginTop: responsiveWidth(5),
               marginBottom: responsiveWidth(6),
-              borderColor: Colors.BorderGray,
-              borderWidth: responsiveWidth(0.2),
+              //borderColor: Colors.BorderGray,
+              //borderWidth: responsiveWidth(0.2),
             }}
-            textStyle={{color: Colors.Text_Black}}
+            textStyle={{color: Colors.BlackText}}
           />
-          <Text style={styles.textsmall}>
+          <Text style={styles.textHintText}>
             By pressing signing up you accept the
             <Text
-              style={[styles.textsmall, {fontFamily: fontFamily.Roboto_Bold}]}>
+              style={[styles.textHintText, {fontFamily: fontFamily.Poppins_Bold}]}>
               {' Terms of Mortgage Club'}
             </Text>
           </Text>
@@ -107,7 +107,7 @@ const WelcomeToApp = ({props, route}) => {
                   {
                     marginStart: responsiveWidth(3),
                     color: '#FF3A33',
-                    fontFamily: fontFamily.Roboto_Medium,
+                    fontFamily: fontFamily.Poppins_Bold,
                   },
                 ]}>
                 {'  Log in'}
@@ -134,28 +134,45 @@ const styles = StyleSheet.create({
   skipText: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(1.6),
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
   },
   text: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(2),
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     marginTop: responsiveWidth(20),
   },
   bigtext: {
-    color: Colors.Text_Black,
+    color: Colors.BlackText,
     fontSize: responsiveFontSize(3),
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_SemiBold,
+    fontWeight: '600',
     marginTop: responsiveWidth(20),
+    lineHeight: 32,
   },
   textsmall: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     marginTop: responsiveWidth(5),
     width: responsiveWidth(80),
+    fontWeight: '400',
     textAlign: 'center',
     alignSelf: 'center',
+    lineHeight: 24,
+    letterSpacing: -0.15,
+  },
+  textHintText: {
+    color: Colors.Light_Black,
+    fontSize: responsiveFontSize(1.8),
+    fontFamily: fontFamily.Poppins_Regular,
+    marginTop: responsiveWidth(5),
+    width: responsiveWidth(80),
+    fontWeight: '400',
+    textAlign: 'center',
+    alignSelf: 'center',
+    lineHeight: 16,
+    letterSpacing: -0.1,
   },
   imagestyle: {
     height: responsiveWidth(5),

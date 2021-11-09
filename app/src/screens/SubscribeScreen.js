@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
+import LinearGradient from 'react-native-linear-gradient';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -41,42 +42,70 @@ const SubscribeScreen = props => {
         <View style={styles.container}>
           <View
             style={{
-              height: '25%',
               backgroundColor: Colors.Black,
-              justifyContent: 'center',
-            }}>
-            <Text style={styles.titleStringText}>
-              {Strings.SubscribeScreen}
-            </Text>
-            <Text style={styles.titleasecondText}>
-              {Strings.SubscribeString}
-            </Text>
-          </View>
-          <View
-            style={{
-              height: '45%',
-              backgroundColor: Colors.White,
-              justifyContent: 'center',
-              borderTopStartRadius: responsiveWidth(5),
-              borderTopEndRadius: responsiveWidth(5),
-            }}>
-            <Text style={styles.middleText}>
-              24/7 support Advanced analytics Something else Some other bonus of
-              subscription
-            </Text>
-          </View>
-          <View
-            style={{
-              height: '30%',
-              backgroundColor: Colors.Black,
+              height: '40%',
               padding: responsiveWidth(5),
+              borderBottomEndRadius: responsiveWidth(20),
+              borderBottomStartRadius: responsiveWidth(20),
             }}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                source={Images.Close_Icon}
+                style={{
+                  height: responsiveWidth(5),
+                  width: responsiveWidth(5),
+                  alignSelf: 'flex-end',
+                  tintColor: Colors.White,
+                  marginTop: responsiveWidth(5),
+                }}
+              />
+            </TouchableOpacity>
+            <Text
+              style={[styles.titleStringText, {marginTop: responsiveWidth(5)}]}>
+              Welcome onboard
+            </Text>
             <Text style={styles.personalText}>
-              Get 3 months for free – and thereafter only 99 per month. You only
-              pay if we are able to create a saving for you.
+              Clinsj is now looking after your mortgage and we will ensure that
+              you always get a fair deal.
+            </Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: Colors.gray,
+              height: '60%',
+              justifyContent: 'center',
+            }}>
+            <View
+              style={{
+                width: '85%',
+                alignSelf: 'center',
+                marginTop: responsiveWidth(-20),
+                paddingTop: responsiveWidth(10),
+                paddingBottom: responsiveWidth(10),
+                borderRadius: responsiveWidth(3),
+                backgroundColor: Colors.White,
+              }}>
+              <Text
+                style={[
+                  styles.middleText,
+                  {color: Colors.Gray_7f, width: responsiveWidth(55)},
+                ]}>
+                {
+                  'Lorem ipsum is a common placeholder text\n•\nLorem ipsum is a common placeholder text\n•\nLorem ipsum is a common placeholder text\n•\nLorem ipsum is a common placeholder text'
+                }
+              </Text>
+            </View>
+            <Text
+              style={[
+                styles.personalText,
+                {color: Colors.Gray_7f, marginTop: responsiveWidth(10)},
+              ]}>
+              Get 3 months for free – and thereafter only NOK99 per month -
+              first 12 months fixed. We only charge you when you actually made a
+              saving
             </Text>
             <NetButton
-              onPress={() => navigation.navigate('ShareResultScreen')}
+              onPress={() => navigation.navigate('PaymentScreen')}
               text={Strings.Subscribe}
               touchableStyle={styles.nextbutton}
               textStyle={styles.nexttext}
@@ -94,19 +123,19 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignSelf: 'center',
-    backgroundColor: Colors.Black,
+    backgroundColor: Colors.gray,
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.4),
     alignSelf: 'center',
-    width: responsiveWidth(70),
+    width: responsiveWidth(80),
     color: Colors.White,
     marginTop: responsiveHeight(1),
     textAlign: 'center',
   },
   middleText: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(30),
@@ -115,7 +144,7 @@ const styles = StyleSheet.create({
   },
   titleStringText: {
     textAlign: 'center',
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(3),
     paddingStart: responsiveWidth(3),
     color: Colors.White,
@@ -124,7 +153,7 @@ const styles = StyleSheet.create({
   },
   titleasecondText: {
     textAlign: 'center',
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.7),
     paddingStart: responsiveWidth(3),
     color: Colors.White,
@@ -134,13 +163,13 @@ const styles = StyleSheet.create({
   },
   nextbutton: {
     marginTop: responsiveWidth(18),
-    backgroundColor: Colors.White,
+    backgroundColor: Colors.Black,
     borderRadius: responsiveWidth(6),
-    width: responsiveWidth(70),
+    width: responsiveWidth(80),
   },
   nexttext: {
-    color: Colors.Black,
-    fontFamily: fontFamily.Roboto_Regular,
+    color: Colors.White,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.8),
     alignSelf: 'center',
   },

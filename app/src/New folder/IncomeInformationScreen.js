@@ -166,7 +166,7 @@ const IncomeInformationScreen = ({props, route}) => {
       </Animatable.View>
     );
   };
-  
+
   //------------------------------------------------Renturn Call-----------------------------------------------------------------------
   return (
     <SafeAreaView style={style.container}>
@@ -215,13 +215,15 @@ const IncomeInformationScreen = ({props, route}) => {
             <Text style={style.iagreeText}>{Strings.IAgree}</Text>
           </View>
           <View style={style.bottomView}>
-            <View style={style.roundView}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={style.roundView}>
               <Image
                 source={Images.Right_Arrow}
                 style={style.imageStyle}
                 resizeMode="contain"
               />
-            </View>
+            </TouchableOpacity>
             <NetButton
               onPress={() => navigation.navigate('IncomeInformationScreen')}
               text={Strings.Confirmagree}
@@ -246,12 +248,12 @@ const style = StyleSheet.create({
     marginBottom: responsiveHeight(5),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(2.5),
     alignSelf: 'center',
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(80),
@@ -259,7 +261,7 @@ const style = StyleSheet.create({
     color: Colors.Dark_Gray,
   },
   titleStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(3),
     alignSelf: 'center',
     width: responsiveWidth(70),
@@ -269,7 +271,7 @@ const style = StyleSheet.create({
     color: Colors.Dark_Gray,
   },
   textStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.8),
     alignSelf: 'center',
     width: responsiveWidth(70),
@@ -278,7 +280,7 @@ const style = StyleSheet.create({
     color: Colors.Text_Black,
   },
   textDetailStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.5),
     alignSelf: 'center',
     width: responsiveWidth(70),
@@ -292,7 +294,7 @@ const style = StyleSheet.create({
     paddingStart: responsiveWidth(5),
   },
   totalStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(60),
@@ -301,7 +303,7 @@ const style = StyleSheet.create({
     color: Colors.Text_Black,
   },
   iagreeText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     alignItems: 'center',
@@ -360,7 +362,7 @@ const style = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     marginBottom: 20,
   },
   header: {
@@ -374,7 +376,7 @@ const style = StyleSheet.create({
   headerText: {
     textAlign: 'center',
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontWeight: '500',
   },
   content: {
@@ -408,7 +410,7 @@ const style = StyleSheet.create({
   },
   selectTitle: {
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontWeight: '500',
     padding: 10,
     textAlign: 'center',
@@ -421,7 +423,7 @@ const style = StyleSheet.create({
   },
   multipleToggle__title: {
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     marginRight: 8,
   },
   blueLineView: {width: '8%', justifyContent: 'center', alignSelf: 'center'},
@@ -440,7 +442,7 @@ const style = StyleSheet.create({
     borderRadius: 0,
   },
   textView: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.4),
     color: Colors.Text_Black,
     width: '89%',

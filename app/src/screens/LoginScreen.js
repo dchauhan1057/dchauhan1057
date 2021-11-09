@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   Image,
   Modal,
+  TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -21,14 +23,7 @@ import {
   responsiveHeight,
   responsiveFontSize,
 } from '../utils/Size';
-import {
-  carsArray,
-  memberArray,
-  maritalArray,
-  childrensArray,
-  educationArray,
-  nationalID,
-} from '../utils/Constant';
+import {nationalID} from '../utils/Constant';
 // Component
 import Dropdown from '../component/Dropdown';
 import NetButton from '../component/NetButton';
@@ -42,21 +37,22 @@ const LoginScreen = ({props, route}) => {
   const [address, setaddress] = useState('');
   const [phoneNumber, setphoneNumber] = useState('');
   const [nationalId, setnationalId] = useState('');
+  const [code, setcode] = useState('+123');
+  const [search, setsearch] = useState('');
+  const [errorsearch, seterrorsearch] = useState('');
   const [errorAddress, seterrorAddress] = useState('');
   const [errorphoneNumber, seterrorphoneNumber] = useState('');
   const [errornationalId, seterrornationalId] = useState('');
-  const [value, setValue] = React.useState(true);
   const [expanded, setExpanded] = React.useState(false);
   const [somethingwentwrong, setsomethingwentwrong] = React.useState(false);
   //------------------------------------------------Function Call-----------------------------------------------------------------------
-  const toggleExpand = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setExpanded(false);
-    setValue(value);
-  };
   const checkValidation = () => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
     if (address === '') {
       seterrorAddress('Please enter address');
+    } else if (reg.test(address) === false) {
+      seterrorAddress('Please enter valid email address');
     } else if (phoneNumber === '') {
       seterrorphoneNumber('Please enter phone number');
     } else if (nationalId === '') {
@@ -66,12 +62,33 @@ const LoginScreen = ({props, route}) => {
     }
   };
   //------------------------------------------------Renturn Call-----------------------------------------------------------------------
+  const renderItem = ({item}) => (
+    <TouchableOpacity
+      onPress={() => {
+        setExpanded(false);
+        setcode(item.value);
+      }}
+      style={style.renderStyle}>
+      <View style={{width: '20%', paddingStart: responsiveWidth(8)}}>
+        <View style={style.grayroundView}>
+          <Text style={style.personalStringText}>A</Text>
+        </View>
+      </View>
+      <View style={style.locationtextView}>
+        <View style={style.item}>
+          <Text style={style.title}>Country Name</Text>
+          <Text style={style.subtitle}>{item.value}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+  //------------------------------------------------Renturn Call-----------------------------------------------------------------------
   return (
     <SafeAreaView style={style.container}>
       <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={style.container}>
           <Text style={style.titleStringText}>{Strings.Letstart}</Text>
-          <Text style={style.personalStringText}>
+          <Text style={style.formDesc}>
             We use BankID for security and to make it easier to complete
             necessary information.
           </Text>
@@ -90,54 +107,33 @@ const LoginScreen = ({props, route}) => {
             style={{
               flexDirection: 'row',
               backgroundColor: '#F6F5F3',
-              marginStart: responsiveWidth(12),
+              marginStart: responsiveWidth(8),
               height: responsiveWidth(13),
-              width: '75%',
-              marginTop: responsiveWidth(10),
-              marginBottom: responsiveWidth(10),
-              zIndex: 10000,
+              width: '83%',
+              marginTop: responsiveWidth(5),
+              marginBottom: responsiveWidth(4),
+              borderRadius: responsiveWidth(4),
             }}>
-            <View
+            <TouchableOpacity
+              onPress={() => setExpanded(true)}
               style={{
                 height: responsiveWidth(13),
+                width: responsiveWidth(20),
+                backgroundColor: Colors.Black,
+                justifyContent: 'center',
+                borderRadius: responsiveWidth(2),
               }}>
-              <DropDownPicker
-                placeholder={'+412'}
+              <Text
                 style={{
-                  width: responsiveWidth(20),
-                  borderRadius: responsiveWidth(3),
-                  backgroundColor: Colors.Black,
-                }}
-                zIndexInverse={1000}
-                items={nationalID}
-                defaultIndex={0}
-                dropDownStyle={{
-                  borderRadius: 10,
-                  height: responsiveWidth(20),
-                  width: responsiveWidth(20),
-                }}
-                containerStyle={{
-                  height: responsiveWidth(20),
-                  width: responsiveWidth(20),
-                }}
-                itemStyle={{
-                  justifyContent: 'flex-start',
-                  marginStart: responsiveWidth(5),
-                  fontSize: responsiveFontSize(1.5),
                   color: Colors.White,
-                  fontFamily: fontFamily.Roboto_Medium,
-                }}
-                textStyle={{
-                  fontSize: responsiveFontSize(1.5),
-                  color: Colors.White,
-                  fontFamily: fontFamily.Roboto_Medium,
-                }}
-                value={value}
-                open={expanded}
-                setOpen={setExpanded}
-                setValue={setValue}
-              />
-            </View>
+                  fontFamily: fontFamily.Poppins_Medium,
+                  fontSize: responsiveFontSize(2),
+                  alignSelf: 'center',
+                  textAlign: 'center',
+                }}>
+                {code}
+              </Text>
+            </TouchableOpacity>
             <NetTextInput
               keyboardType={'numeric'}
               placeholder={Strings.PhoneNumber}
@@ -148,10 +144,11 @@ const LoginScreen = ({props, route}) => {
                 setphoneNumber(phoneNumber);
               }}
               error={errorphoneNumber}
-              errorStyle={{marginStart: responsiveWidth(4)}}
+              errorStyle={{marginStart: responsiveWidth(2)}}
             />
           </View>
           <NetTextInput
+            keyboardType={'numeric'}
             placeholder={Strings.NationalID}
             textInput={style.textInputstyle}
             value={nationalId}
@@ -187,7 +184,7 @@ const LoginScreen = ({props, route}) => {
                 <Text
                   style={[
                     style.personalStringText,
-                    {fontFamily: fontFamily.Roboto_Bold, marginBottom: 0},
+                    {fontFamily: fontFamily.Poppins_Bold, marginBottom: 0},
                   ]}>
                   Oops!
                 </Text>
@@ -210,6 +207,72 @@ const LoginScreen = ({props, route}) => {
               </View>
             </View>
           </Modal>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={expanded}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+              setExpanded(!expanded);
+            }}>
+            <View style={[style.centeredView, {justifyContent: 'flex-end'}]}>
+              <View style={style.modal1View}>
+                <Text
+                  style={[
+                    style.textMain,
+                    {
+                      fontFamily: fontFamily.Poppins_Bold,
+                      alignSelf: 'center',
+                      marginTop: responsiveWidth(5),
+                    },
+                  ]}>
+                  Country Code
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    backgroundColor: '#F6F5F3',
+                    width: responsiveWidth(85),
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                    borderRadius: responsiveWidth(2),
+                    height: responsiveWidth(13.5),
+                  }}>
+                  <Image
+                    source={Images.Close_Icon}
+                    style={{
+                      height: responsiveWidth(3),
+                      width: responsiveWidth(3),
+                      alignSelf: 'center',
+                    }}
+                  />
+                  <NetTextInput
+                    placeholder={Strings.Search}
+                    textInput={[
+                      style.textInputstyle,
+                      {
+                        width: responsiveWidth(80),
+                        alignSelf: 'center',
+                        height: responsiveWidth(12),
+                      },
+                    ]}
+                    value={search}
+                    onChangeText={search => {
+                      seterrorsearch('');
+                      setsearch(search);
+                      setExpanded(false);
+                    }}
+                    error={errorsearch}
+                  />
+                </View>
+                <FlatList
+                  data={nationalID}
+                  renderItem={renderItem}
+                  keyExtractor={item => item.id}
+                />
+              </View>
+            </View>
+          </Modal>
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
@@ -223,7 +286,7 @@ const style = StyleSheet.create({
     backgroundColor: Colors.White,
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     textAlign: 'center',
@@ -232,13 +295,28 @@ const style = StyleSheet.create({
     marginBottom: responsiveWidth(4),
     marginTop: responsiveWidth(3),
   },
-  titleStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
-    fontSize: responsiveFontSize(3),
-    width: responsiveWidth(50),
-    color: Colors.Black,
+  formDesc: {
+    fontFamily: fontFamily.Poppins_Regular,
+    fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     textAlign: 'center',
+    width: responsiveWidth(85),
+    color: Colors.Black,
+    lineHeight: 24,
+    fontWeight: '400',
+    letterSpacing: -0.15,
+    marginBottom: responsiveWidth(4),
+    marginTop: responsiveWidth(3),
+  },
+  titleStringText: {
+    fontFamily: fontFamily.Poppins_SemiBold,
+    fontSize: responsiveFontSize(3),
+    width: responsiveWidth(50),
+    color: Colors.BlackText,
+    alignSelf: 'center',
+    textAlign: 'center',
+    lineHeight: 32,
+    fontWeight: '600',
     marginTop: responsiveWidth(10),
   },
   imagestyle: {height: responsiveWidth(4), width: responsiveWidth(4)},
@@ -270,44 +348,54 @@ const style = StyleSheet.create({
   textMain: {
     fontSize: responsiveFontSize(2),
     color: Colors.Black,
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
   },
   textDesc: {
     fontSize: responsiveFontSize(1.4),
     color: Colors.Black,
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
   },
   textInputstyle: {
-    width: responsiveWidth(78),
+    width: responsiveWidth(85),
     borderRadius: responsiveWidth(3),
     marginTop: responsiveWidth(1),
     backgroundColor: '#F6F5F3',
     marginTop: responsiveWidth(-8),
     color: Colors.Black,
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
   },
   textInputNumberstyle: {
-    width: responsiveWidth(55),
+    width: responsiveWidth(62),
     borderRadius: responsiveWidth(3),
     marginStart: responsiveWidth(0),
     backgroundColor: '#F6F5F3',
     height: responsiveWidth(13),
     marginTop: responsiveWidth(-10),
     color: Colors.Black,
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
   },
   bottomView: {position: 'absolute', bottom: 10, width: '100%'},
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#00000099',
+    backgroundColor: "#000000CC",
   },
   modalView: {
     height: responsiveWidth(50),
     width: responsiveWidth(70),
     backgroundColor: 'white',
     borderRadius: responsiveWidth(4),
+    padding: responsiveWidth(2),
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  modal1View: {
+    height: '90%',
+    width: '100%',
+    backgroundColor: 'white',
+    borderTopLeftRadius: responsiveWidth(4),
+    borderTopRightRadius: responsiveWidth(4),
     padding: responsiveWidth(2),
     justifyContent: 'center',
     alignSelf: 'center',
@@ -319,6 +407,31 @@ const style = StyleSheet.create({
     borderRadius: responsiveWidth(3),
     padding: responsiveWidth(3),
     margin: responsiveWidth(3),
+  },
+  renderStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: responsiveWidth(2),
+    margin: responsiveWidth(1),
+  },
+  grayroundView: {
+    backgroundColor: Colors.circleGray,
+    height: responsiveWidth(10),
+    width: responsiveWidth(10),
+    borderRadius: responsiveWidth(10) / 2,
+    justifyContent: 'center',
+    marginStart: responsiveWidth(-5),
+  },
+  locationpinImage: {
+    tintColor: Colors.Orange,
+    height: responsiveWidth(4),
+    width: responsiveWidth(3),
+    alignSelf: 'center',
+  },
+  locationtextView: {
+    width: '80%',
+    justifyContent: 'flex-start',
+    alignContent: 'flex-start',
   },
 });
 export default LoginScreen;

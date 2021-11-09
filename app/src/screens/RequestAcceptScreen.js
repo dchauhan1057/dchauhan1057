@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import LinearGradient from 'react-native-linear-gradient';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -43,33 +43,39 @@ const RequestAcceptScreen = ({props, route}) => {
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={[style.container, {padding: responsiveWidth(4)}]}>
           <View style={{flex: 1}}>
+            <Image
+              source={Images.Happy_Icon}
+              style={{
+                height: responsiveWidth(40),
+                width: responsiveWidth(40),
+                marginTop: responsiveWidth(30),
+                marginBottom: responsiveWidth(30),
+                alignSelf: 'center',
+              }}
+            />
             <Text style={style.titleStringText}>{Strings.title}</Text>
-            <Text style={style.personalStringText}>
-              {Strings.ForCoborrower}
-            </Text>
             <Text style={style.personalStringText}>
               {Strings.RequestString}
             </Text>
-
             <NetButton
-              onPress={() => navigation.navigate('Co_Borrower')}
+              onPress={() => navigation.navigate('ProfileScreen')}
               text={Strings.Reject}
               touchableStyle={{
-                marginTop: responsiveWidth(80),
+                marginTop: responsiveWidth(20),
                 width: '85%',
                 backgroundColor: Colors.White,
                 borderColor: Colors.BorderGray,
                 borderWidth: responsiveWidth(0.3),
               }}
               textStyle={{
-                fontFamily: fontFamily.Roboto_Bold,
+                fontFamily: fontFamily.Poppins_Bold,
                 fontSize: responsiveFontSize(1.8),
                 color: Colors.Black,
                 alignSelf: 'center',
               }}
             />
             <NetButton
-              onPress={() => navigation.navigate('Co_Borrower')}
+              onPress={() => navigation.navigate('ProfileScreen')}
               text={Strings.Agree}
               touchableStyle={{
                 width: '85%',
@@ -77,7 +83,7 @@ const RequestAcceptScreen = ({props, route}) => {
                 backgroundColor: Colors.Black,
               }}
               textStyle={{
-                fontFamily: fontFamily.Roboto_Bold,
+                fontFamily: fontFamily.Poppins_Bold,
                 fontSize: responsiveFontSize(1.8),
                 color: Colors.White,
                 alignSelf: 'center',
@@ -103,26 +109,27 @@ const style = StyleSheet.create({
     marginBottom: responsiveHeight(5),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(2.5),
     alignSelf: 'center',
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.7),
     width: responsiveWidth(80),
     color: Colors.Dark_Gray,
     marginStart: responsiveWidth(5),
-    marginTop: responsiveWidth(10),
+    marginTop: responsiveWidth(2),
+    textAlign: 'center',
   },
   titleStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
-    fontSize: responsiveFontSize(3),
-    width: responsiveWidth(70),
-    marginTop: responsiveWidth(10),
+    fontFamily: fontFamily.Poppins_Bold,
+    fontSize: responsiveFontSize(2.5),
+    width: responsiveWidth(80),
+    marginTop: responsiveWidth(5),
     color: Colors.Text_Black,
     marginStart: responsiveWidth(5),
-    alignSelf: 'center',
+    textAlign: 'center',
   },
   touchableStyle: {
     height: responsiveWidth(5),

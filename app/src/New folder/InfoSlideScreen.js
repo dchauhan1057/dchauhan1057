@@ -182,19 +182,19 @@ const styles = StyleSheet.create({
   skipText: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(1.6),
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
   },
   otherText: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(1.6),
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     width: '75%',
     marginTop: responsiveWidth(4),
   },
   text: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(4),
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     marginTop: responsiveWidth(10),
     width: '75%',
   },

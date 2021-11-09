@@ -111,13 +111,15 @@ const IntroductionScreen = props => {
           </View>
 
           <View style={styles.bottomView}>
-            <View style={styles.roundView}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.roundView}>
               <Image
                 source={Images.Right_Arrow}
                 style={styles.imageStyle}
                 resizeMode="contain"
               />
-            </View>
+            </TouchableOpacity>
             <NetButton
               onPress={() => navigation.navigate('AgreementScreen')}
               text={Strings.NextStep}
@@ -145,11 +147,11 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(3),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(2),
     alignSelf: 'center',
     width: responsiveWidth(83),
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   titleStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(2.5),
     paddingStart: responsiveWidth(5),
     marginTop: responsiveHeight(5),
@@ -168,7 +170,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textStyle: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.6),
     color: Colors.Dark_Gray,
     marginStart: responsiveWidth(5),
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textStyle1: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.8),
     color: Colors.Dark_Gray,
     marginStart: responsiveWidth(5),
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textStyle2: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.8),
     color: Colors.Dark_Gray,
   },
@@ -235,12 +237,12 @@ const styles = StyleSheet.create({
   textMain: {
     fontSize: responsiveFontSize(2.5),
     color: Colors.BorderGray,
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
   },
   textDesc: {
     fontSize: responsiveFontSize(1.6),
     color: Colors.BorderGray,
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
   },
   dotView: {
     width: '10%',

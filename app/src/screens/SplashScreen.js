@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
+import LinearGradient from 'react-native-linear-gradient';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -24,6 +25,7 @@ import {
   responsiveFontSize,
 } from '../utils/Size';
 import {childrensArray} from '../utils/Constant';
+import {getApi, postApi} from '../utils/Webservices';
 // Component
 import Dropdown from '../component/Dropdown';
 import NetButton from '../component/NetButton';
@@ -35,8 +37,22 @@ const SplashScreen = props => {
   const [index, setIndex] = useState(0);
   useEffect(() => {
     setTimer();
-  }, [setTimer]);
+    getApiCall();
+    postApiCall();
+  }, [setTimer, postApiCall, getApiCall]);
   //------------------------------------------------Function Call-----------------------------------------------------------------------
+  const getApiCall = async () => {
+    var data = await getApi('get/8ee0ba1a-384f-11ec-9b8a-bef94447f54a');
+    alert(JSON.stringify(data.data.data));
+  };
+  const postApiCall = () => {
+    var data = {
+      email: 'sushruth.g@iorbit-tech.com',
+      nationalId: '23455567890',
+      phone: '+919916833351',
+    };
+    postApi('create', data);
+  };
   const setTimer = () => {
     setTimeout(() => {
       navigation.navigate('SliderScreen');
@@ -46,13 +62,17 @@ const SplashScreen = props => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView bounces={false} contentContainerStyle={{flexGrow: 1}}>
-        <View style={styles.container}>
+        <LinearGradient
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 1}}
+          colors={['#505868', '#0C1217', '#0C1217']}
+          style={styles.container}>
           <Image
             source={Images.LogoWhite}
             style={styles.logoImg}
             resizeMode={'contain'}
           />
-        </View>
+        </LinearGradient>
       </ScrollView>
     </SafeAreaView>
   );

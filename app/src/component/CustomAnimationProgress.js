@@ -1,7 +1,6 @@
 import React from 'react';
 import {Dimensions, Animated, View} from 'react-native';
 import Svg, {Defs, LinearGradient, Rect, Stop} from 'react-native-svg';
-
 const {width, height} = Dimensions.get('window');
 
 //const barWidth = width * 0.3454;

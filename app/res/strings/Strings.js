@@ -18,7 +18,7 @@ export const Strings = {
   Addloan: 'Add security',
   Total: 'Total',
   Addadditionalsecurity: 'Add additional security',
-  IncomeTitle: 'Please validate your sources of income',
+  IncomeTitle: 'Validate sources of income',
   TellIncome: 'Tell us about your income',
   TellIncomeDetail:
     'Tell us about your income. Please do not include their income here.',
@@ -132,7 +132,7 @@ export const Strings = {
   PostFacebook: 'Post on Facebook',
   PostLinkedIn: 'Post on LinkedIn',
   Postmessage: 'Share as a message',
-  title: 'Name Surname added you as a co-borrower',
+  title: 'Name Surname added you \nas a co-borrower',
   Fullname: 'Full name',
   Birthdate: 'Birthdate',
   Email: 'Email',
@@ -142,5 +142,11 @@ export const Strings = {
   SubscribeString:
     'Lorem ipsum is a placeholder text commonly used to demonstrate the visual content.',
   SignUpMobile: 'Signup with BankID on mobile',
-  Tryagain:"Try again"
+  Search: 'Search',
+  Tryagain: 'Try again',
+  Negotiotiable: 'Negotiotiable',
+  NegotiotiableString: 'Looks like you are overpaying a bit. We can negotiate your loans.',
+  Knowmore:"Know more",
+  Paymentdetails:"Payment details",
+  OpenChecklist :"Open Checklist "
 };

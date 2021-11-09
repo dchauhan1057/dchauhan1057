@@ -10,10 +10,14 @@ import {
   Alert,
   Modal,
   TouchableOpacity,
+  Platform,
+  FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
 import DropDownPicker from 'react-native-dropdown-picker';
+import LinearGradient from 'react-native-linear-gradient';
+import Slider from 'react-native-slider';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -52,6 +56,9 @@ const UnsecuredLoanScreen = ({props, route}) => {
   const [errorinterest, seterrorinterest] = React.useState('');
   const [choosebank, setchoosebank] = React.useState('');
   const [errorchoosebank, seterrorchoosebank] = React.useState('');
+  const [search, setsearch] = useState('');
+  const [errorsearch, seterrorsearch] = useState('');
+  const [enableButton, setenableButton] = useState(true);
   //------------------------------------------------Function Call-----------------------------------------------------------------------
   const toggleExpand = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -71,6 +78,32 @@ const UnsecuredLoanScreen = ({props, route}) => {
     }
   };
   //------------------------------------------------Render Call-----------------------------------------------------------------------
+  const renderDropdownItem = ({item}) => (
+    <TouchableOpacity
+      onPress={() => {
+        setExpanded(false);
+        setchoosebank(item.value);
+      }}
+      style={style.renderStyle}>
+      <View style={{width: '20%', paddingStart: responsiveWidth(8)}}>
+        <View style={style.grayroundView}>
+          <Text
+            style={[
+              style.textMain,
+              {color: Colors.Orange, alignSelf: 'center'},
+            ]}>
+            A
+          </Text>
+        </View>
+      </View>
+      <View style={style.locationtextView}>
+        <View style={style.item}>
+          <Text style={style.title}>Bank Name</Text>
+          <Text style={style.subtitle}>{item.value}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
   const addMortageCall = () => {
     return (
       <Modal
@@ -110,27 +143,32 @@ const UnsecuredLoanScreen = ({props, route}) => {
         }}>
         <View
           style={{
-            marginTop: responsiveWidth(35),
-            marginStart: responsiveWidth(38),
+            marginTop: responsiveWidth(38),
+            marginStart: responsiveWidth(37),
             height: responsiveWidth(45),
             width: responsiveWidth(60),
             justifyContent: 'center',
             borderRadius: responsiveWidth(4),
           }}>
-          <View
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={['#FF8D69', '#FF3A33', '#FF3A33']}
             style={{
-              height: responsiveWidth(45),
+              height: responsiveWidth(52),
               width: responsiveWidth(60),
               justifyContent: 'center',
               backgroundColor: Colors.Black,
               borderRadius: responsiveWidth(4),
             }}>
             <View style={style.TriangleShapeCSS} />
-            <Text style={style.modalStringText}>Info about loan</Text>
+            <Text style={[style.modalStringText, {marginTop: 0}]}>
+              Info about loan
+            </Text>
             <Text
               style={[
                 style.modalStringText,
-                {fontFamily: fontFamily.Roboto_Regular},
+                {fontFamily: fontFamily.Poppins_Regular},
               ]}>
               Lorem ipsum is a placeholder text commonly used to demonstrate the
               visual content.
@@ -146,7 +184,7 @@ const UnsecuredLoanScreen = ({props, route}) => {
                 Got it!
               </Text>
             </TouchableOpacity>
-          </View>
+          </LinearGradient>
         </View>
       </Modal>
     );
@@ -157,43 +195,51 @@ const UnsecuredLoanScreen = ({props, route}) => {
         <View
           style={{
             width: '90%',
-            marginStart: responsiveWidth(8),
+            marginStart: responsiveWidth(5),
             paddingTop: responsiveWidth(5),
           }}>
-          <DropDownPicker
-            placeholder={'Choose bank'}
-            items={bankArray}
-            style={{
-              width: responsiveWidth(83),
-              borderWidth: 1,
-              borderColor: Colors.Black,
-              borderRadius: responsiveWidth(3),
-            }}
-            zIndexInverse={1000}
-            defaultIndex={0}
-            dropDownStyle={{
-              borderRadius: 10,
-              height: responsiveWidth(20),
-              width: responsiveWidth(83),
-            }}
-            containerStyle={{
-              height: responsiveWidth(20),
-              width: responsiveWidth(83),
-            }}
-            itemStyle={{
-              justifyContent: 'flex-start',
-              marginStart: responsiveWidth(5),
-              fontSize: responsiveFontSize(1.5),
-            }}
-            value={value}
-            open={expanded}
-            setOpen={setExpanded}
-            setValue={setValue}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              setenableButton(false);
+              setExpanded(true);
+            }}>
+            <View
+              style={{
+                height: responsiveWidth(12),
+                width: responsiveWidth(83),
+                backgroundColor: Colors.gray,
+                alignSelf: 'center',
+                justifyContent: 'center',
+                borderRadius: responsiveWidth(2),
+                paddingStart: responsiveWidth(4),
+                flexDirection: 'row',
+              }}>
+              <Text
+                style={[
+                  style.textInputStyle,
+                  {
+                    width: '90%',
+                    alignSelf: 'center',
+                    marginTop: responsiveWidth(1),
+                    color:
+                      choosebank === '' || null
+                        ? Colors.LineGray
+                        : Colors.Black,
+                  },
+                ]}>
+                {choosebank === '' || null ? 'Please select bank' : choosebank}
+              </Text>
+              <Image
+                source={expanded ? Images.Up_Arrow : Images.Down_Arrow}
+                style={style.downimageStyle}
+                resizeMode="contain"
+              />
+            </View>
+          </TouchableOpacity>
           {seterrorchoosebank != '' ? (
             <Text
               style={{
-                fontFamily: fontFamily.Roboto_Regular,
+                fontFamily: fontFamily.Poppins_Regular,
                 fontSize: responsiveFontSize(1.5),
                 color: Colors.Red,
                 marginTop: responsiveWidth(-6),
@@ -205,6 +251,7 @@ const UnsecuredLoanScreen = ({props, route}) => {
           ) : null}
         </View>
         <NetTextInput
+          keyboardType={'numeric'}
           textInput={[
             style.textInputStyle,
             {width: responsiveWidth(83), marginTop: responsiveWidth(-10)},
@@ -215,6 +262,7 @@ const UnsecuredLoanScreen = ({props, route}) => {
           onChangeText={amount => {
             seterroramount('');
             setamount(amount);
+            setenableButton(false);
           }}
           error={erroramount}
         />
@@ -226,6 +274,7 @@ const UnsecuredLoanScreen = ({props, route}) => {
           }}>
           <View style={{width: '50%'}}>
             <NetTextInput
+              keyboardType={'numeric'}
               textInput={style.textInputStyle}
               errorStyle={{marginStart: responsiveWidth(2)}}
               placeholder={'Interest rate'}
@@ -233,6 +282,7 @@ const UnsecuredLoanScreen = ({props, route}) => {
               onChangeText={interest => {
                 seterrorinterest('');
                 setinterest(interest);
+                setenableButton(false);
               }}
               error={errorinterest}
             />
@@ -247,43 +297,81 @@ const UnsecuredLoanScreen = ({props, route}) => {
                     : responsiveWidth(1),
               },
             ]}>
-            <Text
-              onPress={() => setisFixed(false)}
-              style={[
-                style.switchStyle,
-                {
-                  backgroundColor: !isFixed
-                    ? Colors.Black
-                    : Colors.TextInput_Background,
-                  color: !isFixed ? Colors.White : Colors.Gray_7f,
-                },
-              ]}>
-              Fixed
-            </Text>
-            <Text
-              onPress={() => setisFixed(true)}
-              style={[
-                style.switchStyle,
-                {
-                  backgroundColor: isFixed
-                    ? Colors.Black
-                    : Colors.TextInput_Background,
-                  color: isFixed ? Colors.White : Colors.Gray_7f,
-                },
-              ]}>
-              Floating
-            </Text>
-            <View></View>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 1}}
+              colors={
+                !isFixed
+                  ? ['#505868', '#0C1217', '#0C1217']
+                  : [
+                      Colors.TextInput_Background,
+                      Colors.TextInput_Background,
+                      Colors.TextInput_Background,
+                    ]
+              }
+              style={style.switchStyle}>
+              <Text
+                style={[
+                  style.text,
+                  {
+                    color: !isFixed ? Colors.White : Colors.Gray_7f,
+                  },
+                ]}
+                onPress={() => {
+                  setenableButton(false);
+                  setisFixed(false);
+                }}>
+                Fixed
+              </Text>
+            </LinearGradient>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 1}}
+              colors={
+                isFixed
+                  ? ['#505868', '#0C1217', '#0C1217']
+                  : [
+                      Colors.TextInput_Background,
+                      Colors.TextInput_Background,
+                      Colors.TextInput_Background,
+                    ]
+              }
+              style={style.switchStyle}>
+              <Text
+                style={[
+                  style.text,
+                  {
+                    color: isFixed ? Colors.White : Colors.Gray_7f,
+                  },
+                ]}
+                onPress={() => {
+                  setenableButton(false);
+                  setisFixed(true);
+                }}>
+                Floating
+              </Text>
+            </LinearGradient>
+            <View>
+              <Text></Text>
+            </View>
           </View>
         </View>
-        <Progress.Bar
-          progress={0.3}
-          width={350}
-          color={Colors.Black}
-          unfilledColor={'#F6F5F3'}
-          style={{alignSelf: 'center', marginTop: responsiveWidth(5)}}
+        <Slider
+          thumbImage={'12'}
+          minimumValue={0}
+          maximumValue={1}
+          minimumTrackTintColor={Colors.Black}
+          maximumTrackTintColor="#F3F4F6"
+          thumbTintColor={Colors.Black}
+          width="82%"
+          style={{alignSelf: 'center', marginTop: responsiveWidth(8)}}
+          thumbStyle={{
+            height: responsiveWidth(8),
+            width: responsiveWidth(11),
+            borderRadius: responsiveWidth(5),
+          }}
         />
-        {addMortage ? null : (
+        {/* {addMortage ? null : (
           <NetImageTextButton
             onPress={() => setaddMortage(true)}
             text={Strings.Addloan}
@@ -292,50 +380,115 @@ const UnsecuredLoanScreen = ({props, route}) => {
             imagestyle={style.addimageStyle}
             touchableStyle={style.addtouchbutton}
           />
-        )}
+        )} */}
       </View>
+    );
+  };
+  const dropdowncall = () => {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={expanded}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setExpanded(!expanded);
+        }}>
+        <View style={[style.centeredView, {justifyContent: 'flex-end'}]}>
+          <View style={style.modal1View}>
+            <Text
+              style={[
+                style.textMain,
+                {
+                  fontFamily: fontFamily.Poppins_Bold,
+                  alignSelf: 'center',
+                  marginTop: responsiveWidth(5),
+                },
+              ]}>
+              Country Code
+            </Text>
+            <NetTextInput
+              placeholder={Strings.Search}
+              textInput={style.textInputstyle}
+              value={search}
+              onChangeText={search => {
+                seterrorsearch('');
+                setsearch(search);
+                setExpanded(false);
+              }}
+              error={errorsearch}
+            />
+            <FlatList
+              data={bankArray}
+              renderItem={renderDropdownItem}
+              keyExtractor={item => item.id}
+            />
+          </View>
+        </View>
+      </Modal>
     );
   };
   //------------------------------------------------Renturn Call-----------------------------------------------------------------------
   return (
-    <SafeAreaView style={style.container}>
+    <SafeAreaView style={[style.container, {backgroundColor: '#2F353F'}]}>
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <View style={[style.container, {}]}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignSelf: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={[style.titleStringText, {color: Colors.White}]}>
-              {Strings.unsecuredLoan}
+        <View style={[style.container, {backgroundColor: '#2F353F'}]}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={['#505868', '#0C1217', '#0C1217']}
+            style={{paddingBottom: responsiveWidth(5)}}>
+            <Progress.Bar
+              progress={0.32}
+              width={Platform.OS === 'ios' ? 320 : 250}
+              color={Colors.Orange}
+              unfilledColor={Colors.Dark_Gray}
+              style={{
+                alignSelf: 'center',
+                marginTop: responsiveWidth(10),
+                height: responsiveWidth(1.5),
+                borderColor: 'transparent',
+              }}
+            />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text style={[style.titleStringText, {color: Colors.White}]}>
+                {Strings.unsecuredLoan}
+              </Text>
+              <TouchableOpacity
+                style={{
+                  marginTop: responsiveWidth(3),
+                  marginStart: responsiveWidth(-8),
+                }}
+                onPress={() => setinfoModal(true)}>
+                <Image
+                  source={Images.Info_Icon}
+                  style={[
+                    style.imageStyle,
+                    {
+                      tintColor: Colors.White,
+                      marginTop: responsiveWidth(10),
+                      marginStart: responsiveWidth(8),
+                    },
+                  ]}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={[style.personalStringText, {color: Colors.White}]}>
+              {Strings.UnsecuredText}
             </Text>
-            <TouchableOpacity
-              style={{marginTop: responsiveWidth(3)}}
-              onPress={() => setinfoModal(true)}>
-              <Image
-                source={Images.Right_Arrow}
-                style={[
-                  style.imageStyle,
-                  {
-                    tintColor: Colors.White,
-                    marginTop: responsiveWidth(10),
-                    marginStart: responsiveWidth(8),
-                  },
-                ]}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
-          <Text style={[style.personalStringText, {color: Colors.White}]}>
-            {Strings.UnsecuredText}
-          </Text>
+          </LinearGradient>
           <View
             style={{
               backgroundColor: Colors.White,
               width: '99%',
               marginStart: responsiveWidth(0.6),
-              marginTop: responsiveWidth(2),
+              // marginTop: responsiveWidth(2),
               borderTopLeftRadius: responsiveWidth(10),
               borderTopRightRadius: responsiveWidth(10),
               flex: 1,
@@ -348,22 +501,24 @@ const UnsecuredLoanScreen = ({props, route}) => {
               </Text>
             </View>
             <View style={style.bottomView}>
-              <View style={style.roundView}>
+            <TouchableOpacity
+                onPress={() => navigation.goBack()} style={style.roundView}>
                 <Image
                   source={Images.Right_Arrow}
                   style={style.imageStyle}
                   resizeMode="contain"
                 />
-              </View>
+              </TouchableOpacity>
               <NetButton
                 onPress={() => checkValidation()}
-                text={Strings.NoLoan}
-                touchableStyle={style.nextbutton}
-                textStyle={style.nexttext}
+                text={!enableButton ? Strings.Done : Strings.NoLoan}
+                touchableStyle={!enableButton ? style.nextbutton1:style.nextbutton}
+                textStyle={!enableButton ? style.nexttext1:style.nexttext}
               />
             </View>
             {addMortageCall()}
             {infoModalCall()}
+            {dropdowncall()}
           </View>
         </View>
       </ScrollView>
@@ -381,7 +536,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(2.5),
     alignSelf: 'center',
     width: responsiveWidth(70),
@@ -389,7 +544,7 @@ const style = StyleSheet.create({
     color: Colors.Dark_Gray,
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(80),
@@ -406,7 +561,7 @@ const style = StyleSheet.create({
     marginTop: responsiveWidth(4),
   },
   modalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     textAlign: 'center',
@@ -415,8 +570,8 @@ const style = StyleSheet.create({
     color: Colors.White,
   },
   titleStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
-    fontSize: responsiveFontSize(3),
+    fontFamily: fontFamily.Poppins_Bold,
+    fontSize: responsiveFontSize(2.8),
     alignSelf: 'center',
     width: responsiveWidth(70),
     marginTop: responsiveHeight(5),
@@ -424,7 +579,7 @@ const style = StyleSheet.create({
     color: Colors.Dark_Gray,
   },
   textStyle: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.6),
     color: '#212B36',
     marginStart: responsiveWidth(5),
@@ -460,7 +615,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     paddingStart: responsiveWidth(5),
-    marginTop: responsiveWidth(30),
+    marginTop: responsiveWidth(20),
   },
   imageStyle: {
     height: responsiveWidth(4),
@@ -481,7 +636,7 @@ const style = StyleSheet.create({
     marginTop: responsiveHeight(3),
   },
   totalStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(60),
@@ -489,7 +644,7 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
   },
   addtextstyle: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.8),
     color: Colors.Black,
     alignSelf: 'center',
@@ -512,22 +667,36 @@ const style = StyleSheet.create({
   },
   nextbutton: {
     marginTop: responsiveWidth(5),
-    backgroundColor: Colors.Black,
+    backgroundColor: Colors.Gray_CC,
     borderRadius: responsiveWidth(6),
     width: responsiveWidth(65),
     alignSelf: 'center',
     marginEnd: responsiveWidth(10),
   },
   nexttext: {
+    color: Colors.Black,
+    fontFamily: fontFamily.Poppins_Medium,
+    fontSize: responsiveFontSize(1.8),
+    alignSelf: 'center',
+  },
+  nextbutton1: {
+    marginTop: responsiveWidth(5),
+    backgroundColor: Colors.Black,
+    borderRadius: responsiveWidth(6),
+    width: responsiveWidth(65),
+    alignSelf: 'center',
+    marginEnd: responsiveWidth(10),
+  },
+  nexttext1: {
     color: Colors.White,
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.8),
     alignSelf: 'center',
   },
   textInputStyle: {
     borderRadius: responsiveWidth(2),
     marginTop: responsiveWidth(-2),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     color: Colors.Black,
     fontSize: responsiveFontSize(1.7),
   },
@@ -539,22 +708,28 @@ const style = StyleSheet.create({
     borderRadius: responsiveWidth(2),
     alignSelf: 'center',
     marginTop: responsiveWidth(8),
+    overflow: 'hidden',
+  },
+  text: {
+    textAlign: 'center',
+    fontFamily: fontFamily.Poppins_Medium,
+    fontSize: responsiveFontSize(1.6),
   },
   switchStyle: {
     width: '50%',
     height: '100%',
-    borderRadius: responsiveWidth(2),
+    borderRadius:
+      Platform.OS === 'ios' ? responsiveWidth(4) : responsiveWidth(2),
     paddingTop: responsiveWidth(3.5),
     alignSelf: 'center',
-    textAlign: 'center',
-    fontFamily: fontFamily.Roboto_Medium,
-    fontSize: responsiveFontSize(1.6),
+
+    overflow: 'hidden',
   },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.Dark_Gray,
+    backgroundColor: "#000000CC",
   },
   modalView: {
     marginTop: responsiveWidth(15),
@@ -589,12 +764,52 @@ const style = StyleSheet.create({
     borderRightWidth: 10,
     borderBottomWidth: 20,
     marginTop: responsiveWidth(-10),
-    marginStart: responsiveWidth(45),
+    marginStart: responsiveWidth(46),
     borderStyle: 'solid',
     backgroundColor: 'transparent',
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
-    borderBottomColor: Colors.Black,
+    borderBottomColor: '#FF3A33',
+  },
+  downimageStyle: {
+    height: responsiveWidth(5),
+    width: responsiveWidth(5),
+    alignSelf: 'center',
+  },
+  modal1View: {
+    height: '90%',
+    width: '100%',
+    backgroundColor: 'white',
+    borderTopLeftRadius: responsiveWidth(4),
+    borderTopRightRadius: responsiveWidth(4),
+    padding: responsiveWidth(2),
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  renderStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: responsiveWidth(2),
+    margin: responsiveWidth(1),
+  },
+  grayroundView: {
+    backgroundColor: Colors.circleGray,
+    height: responsiveWidth(10),
+    width: responsiveWidth(10),
+    borderRadius: responsiveWidth(10) / 2,
+    justifyContent: 'center',
+    marginStart: responsiveWidth(-5),
+  },
+  locationpinImage: {
+    tintColor: Colors.Orange,
+    height: responsiveWidth(4),
+    width: responsiveWidth(3),
+    alignSelf: 'center',
+  },
+  locationtextView: {
+    width: '80%',
+    justifyContent: 'flex-start',
+    alignContent: 'flex-start',
   },
 });
 export default UnsecuredLoanScreen;

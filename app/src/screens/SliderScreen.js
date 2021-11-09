@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
+import LinearGradient from 'react-native-linear-gradient';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -102,12 +103,11 @@ const SliderScreen = props => {
                 />
                 <Image
                   style={{
-                    height: responsiveWidth(45),
-                    width: responsiveWidth(45),
-                    tintColor: Colors.Light_Gray,
+                    height: responsiveWidth(55),
+                    width: '100%',
                     marginTop: responsiveWidth(20),
                   }}
-                  source={Images.Image_Icon}
+                  source={Images.slider1}
                   resizeMode={'contain'}
                 />
                 <Text style={styles.text}>
@@ -126,12 +126,11 @@ const SliderScreen = props => {
                 />
                 <Image
                   style={{
-                    height: responsiveWidth(45),
-                    width: responsiveWidth(45),
-                    tintColor: Colors.Light_Gray,
+                    height: responsiveWidth(55),
+                    width: '100%',
                     marginTop: responsiveWidth(20),
                   }}
-                  source={Images.Image_Icon}
+                  source={Images.slider2}
                   resizeMode={'contain'}
                 />
                 <Text style={styles.text}>Toghether we are stronger!</Text>
@@ -149,18 +148,18 @@ const SliderScreen = props => {
                 />
                 <Image
                   style={{
-                    height: responsiveWidth(45),
-                    width: responsiveWidth(45),
-                    tintColor: Colors.Light_Gray,
+                    height: responsiveWidth(55),
+                    width: '100%',
                     marginTop: responsiveWidth(20),
                   }}
-                  source={Images.Image_Icon}
+                  source={Images.slider3}
                   resizeMode={'contain'}
                 />
-                <Text style={styles.text}>
+                <Text style={[styles.text, {marginTop: responsiveWidth(18)}]}>
                   The market moves... but we are on watch
                 </Text>
-                <Text style={styles.textsmall}>
+                <Text
+                  style={[styles.textsmall, {marginTop: responsiveWidth(2)}]}>
                   As long as their is an opportunity for a better rate, we
                   continue to negotiate... Again... again... and again!
                 </Text>
@@ -173,12 +172,11 @@ const SliderScreen = props => {
                 />
                 <Image
                   style={{
-                    height: responsiveWidth(45),
-                    width: responsiveWidth(45),
-                    tintColor: Colors.Light_Gray,
+                    height: responsiveWidth(55),
+                    width: '100%',
                     marginTop: responsiveWidth(20),
                   }}
-                  source={Images.Image_Icon}
+                  source={Images.slider4}
                   resizeMode={'contain'}
                 />
                 <Text style={styles.text}>Free to join!</Text>
@@ -205,7 +203,7 @@ const SliderScreen = props => {
               }}
               textStyle={{
                 color: Colors.White,
-                fontFamily: fontFamily.Roboto_Bold,
+                fontFamily: fontFamily.Poppins_Bold,
                 fontSize: responsiveFontSize(2),
               }}
             />
@@ -218,8 +216,8 @@ const SliderScreen = props => {
                 marginEnd: responsiveWidth(8),
               }}
               textStyle={{
-                color: Colors.Black,
-                fontFamily: fontFamily.Roboto_Bold,
+                color: Colors.BlackText,
+                fontFamily: fontFamily.Poppins_Bold,
                 fontSize: responsiveFontSize(2),
               }}
             />
@@ -261,29 +259,34 @@ const styles = StyleSheet.create({
   skipText: {
     color: Colors.White,
     fontSize: responsiveFontSize(1.6),
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
   },
   text: {
     color: Colors.White,
     fontSize: responsiveFontSize(2.2),
-    fontFamily: fontFamily.Roboto_Bold,
-    marginTop: responsiveWidth(25),
+    fontFamily: fontFamily.Poppins_SemiBold,
+    marginTop: responsiveWidth(20),
     width: '70%',
     textAlign: 'center',
   },
   bigtext: {
     color: Colors.White,
     fontSize: responsiveFontSize(3),
-    fontFamily: fontFamily.Roboto_Bold,
+    lineHeight: 32,
+    fontWeight: '600',
+    fontFamily: fontFamily.Poppins_SemiBold,
     marginTop: responsiveWidth(0),
   },
   textsmall: {
-    color: Colors.White,
+    color: Colors.greyText,
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
+    fontWeight: '400',
     marginTop: responsiveWidth(5),
     width: responsiveWidth(70),
     textAlign: 'center',
+    lineHeight: 24,
+    letterSpacing: -0.15,
   },
   imagestyle: {
     height: responsiveWidth(5),

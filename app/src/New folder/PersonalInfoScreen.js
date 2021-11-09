@@ -57,13 +57,14 @@ const PersonalInfoScreen = ({props, route}) => {
           <Dropdown question={Strings.Question5} data={memberArray} />
 
           <View style={style.bottomView}>
-            <View style={style.roundView}>
+          <TouchableOpacity
+                onPress={() => navigation.goBack()} style={style.roundView}>
               <Image
                 source={Images.Right_Arrow}
                 style={style.imageStyle}
                 resizeMode="contain"
               />
-            </View>
+            </TouchableOpacity>
             <NetButton
               onPress={() => navigation.navigate('MortgageScreen')}
               text={Strings.NextStep}
@@ -88,12 +89,12 @@ const style = StyleSheet.create({
     marginBottom: responsiveHeight(5),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(2.5),
     alignSelf: 'center',
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(80),

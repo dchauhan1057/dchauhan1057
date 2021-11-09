@@ -12,7 +12,8 @@ import {
   Switch,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import LinearGradient from 'react-native-linear-gradient';
+import * as Progress from 'react-native-progress';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -75,7 +76,10 @@ const IncomeInformationScreen = ({props, route}) => {
   // False: One can be expand at a time
   const [multipleSelect, setMultipleSelect] = useState(false);
   const [isFixed, setisFixed] = React.useState(false);
-
+  const [isbonusFixed, setbonusisFixed] = React.useState(false);
+  const [income, setincome] = React.useState('');
+  const [bonus, setbonus] = React.useState('');
+  const [enableButton, setenableButton] = useState(true);
   const toggleExpanded = () => {
     // Toggling the state of single Collapsible
     setCollapsed(!collapsed);
@@ -96,14 +100,14 @@ const IncomeInformationScreen = ({props, route}) => {
         <TouchableOpacity
           style={[
             style.round,
-            {backgroundColor: !isActive ? '#F6F5F3' : Colors.Black},
+            {backgroundColor: !isActive ? Colors.White : Colors.Black},
           ]}>
           <Image
-            source={Images.Right_Arrow}
+            source={Images.checkmark}
             style={[
               style.imageStyle,
               {
-                tintColor: !isActive ? '#F6F5F3' : Colors.White,
+                tintColor: !isActive ? Colors.White : Colors.White,
                 height: responsiveWidth(3),
                 width: responsiveWidth(3),
               },
@@ -136,7 +140,7 @@ const IncomeInformationScreen = ({props, route}) => {
           </Text>
           {switchview()}
           <Text style={style.textStringText}>{Strings.Bonuscommission}</Text>
-          {switchview()}
+          {switchview1()}
           <Text style={style.textView}>{Strings.BonusText}</Text>
         </View>
       </Animatable.View>
@@ -154,39 +158,150 @@ const IncomeInformationScreen = ({props, route}) => {
         }}>
         <View style={{width: '50%'}}>
           <NetTextInput
+            keyboardType={'numeric'}
             textInput={style.textInputStyle}
             placeholder={'Sum'}
-            onChangeText={() => alert('Called')}
+            value={income}
+            onChangeText={income => {
+              setenableButton(false);
+              setincome(income);
+            }}
             error={''}
-            />
+          />
+        </View>
+        <View style={[style.switchView]}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={
+              !isFixed
+                ? ['#505868', '#0C1217', '#0C1217']
+                : [Colors.White, Colors.White, Colors.White]
+            }
+            style={style.switchStyle}>
+            <Text
+              style={[
+                style.text,
+                {
+                  color: !isFixed ? Colors.White : Colors.Gray_7f,
+                },
+              ]}
+              onPress={() => {
+                setenableButton(false);
+                setisFixed(false);
+              }}>
+              Monthly
+            </Text>
+          </LinearGradient>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={
+              isFixed
+                ? ['#505868', '#0C1217', '#0C1217']
+                : [Colors.White, Colors.White, Colors.White]
+            }
+            style={style.switchStyle}>
+            <Text
+              style={[
+                style.text,
+                {
+                  color: isFixed ? Colors.White : Colors.Black,
+                },
+              ]}
+              onPress={() => {
+                setenableButton(false);
+                setisFixed(true);
+              }}>
+              Annually
+            </Text>
+          </LinearGradient>
+          <View>
+            <Text></Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+  const switchview1 = () => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          width: responsiveWidth(88),
+          alignSelf: 'center',
+          marginStart: responsiveWidth(8),
+          marginTop: responsiveWidth(-4),
+        }}>
+        <View style={{width: '50%'}}>
+          <NetTextInput
+            keyboardType={'numeric'}
+            textInput={style.textInputStyle}
+            placeholder={'Sum'}
+            value={bonus}
+            onChangeText={bonus => {
+              setenableButton(false);
+              setbonus(bonus);
+            }}
+            error={''}
+          />
         </View>
         <View style={style.switchView}>
-          <Text
-            onPress={() => setisFixed(false)}
-            style={[
-              style.switchStyle,
-              {
-                backgroundColor: !isFixed
-                ? Colors.Black
-                : Colors.TextInput_Background,
-                color: !isFixed ? Colors.White : Colors.Gray_7f,
-              },
-            ]}>
-            Monthly
-          </Text>
-          <Text
-            onPress={() => setisFixed(true)}
-            style={[
-              style.switchStyle,
-              {
-                backgroundColor: isFixed
-                ? Colors.Black
-                : Colors.TextInput_Background,
-                color: isFixed ? Colors.White : Colors.Gray_7f,
-              },
-            ]}>
-            Annually
-          </Text>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={
+              !isbonusFixed
+                ? ['#505868', '#0C1217', '#0C1217']
+                : [
+                    Colors.TextInput_Background,
+                    Colors.TextInput_Background,
+                    Colors.TextInput_Background,
+                  ]
+            }
+            style={style.switchStyle}>
+            <Text
+              onPress={() => {
+                setenableButton(false);
+                setbonusisFixed(false);
+              }}
+              style={[
+                style.text,
+                {
+                  color: setbonusisFixed ? Colors.White : Colors.Gray_7f,
+                },
+              ]}>
+              Monthly
+            </Text>
+          </LinearGradient>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={
+              isbonusFixed
+                ? ['#505868', '#0C1217', '#0C1217']
+                : [
+                    Colors.TextInput_Background,
+                    Colors.TextInput_Background,
+                    Colors.TextInput_Background,
+                  ]
+            }
+            style={style.switchStyle}>
+            <Text
+              onPress={() => {
+                setenableButton(false);
+                setbonusisFixed(true);
+              }}
+              style={[
+                style.text,
+                {
+                  color: setbonusisFixed ? Colors.White : Colors.Black,
+                },
+              ]}>
+              Annually
+            </Text>
+          </LinearGradient>
+
           <View></View>
         </View>
       </View>
@@ -196,17 +311,35 @@ const IncomeInformationScreen = ({props, route}) => {
   return (
     <SafeAreaView style={style.container}>
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <View style={[style.container]}>
-          <Text style={style.titleStringText}>{Strings.IncomeTitle}</Text>
-          <Text style={style.textDetailStringText}>      
-            {Strings.TellIncomeDetail}
-          </Text>
+        <View style={[style.container, {backgroundColor: '#2F353F'}]}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={['#505868', '#0C1217', '#0C1217']}
+            style={{paddingBottom: responsiveWidth(5)}}>
+            <Progress.Bar
+              progress={0.48}
+              width={Platform.OS === 'ios' ? 320 : 250}
+              color={Colors.Orange}
+              unfilledColor={Colors.Dark_Gray}
+              style={{
+                alignSelf: 'center',
+                marginTop: responsiveWidth(10),
+                height: responsiveWidth(1.5),
+                borderColor: 'transparent',
+              }}
+            />
+            <Text style={style.titleStringText}>{Strings.IncomeTitle}</Text>
+            <Text style={style.textDetailStringText}>
+              {Strings.TellIncomeDetail}
+            </Text>
+          </LinearGradient>
           <View
             style={{
               backgroundColor: Colors.White,
               width: '99%',
               marginStart: responsiveWidth(0.6),
-              marginTop: responsiveWidth(2),
+              // marginTop: responsiveWidth(2),
               borderTopLeftRadius: responsiveWidth(10),
               borderTopRightRadius: responsiveWidth(10),
               flex: 1,
@@ -241,18 +374,19 @@ const IncomeInformationScreen = ({props, route}) => {
               </Text>
             </View>
             <View style={style.bottomView}>
-              <View style={style.roundView}>
+            <TouchableOpacity
+                onPress={() => navigation.goBack()} style={style.roundView}>
                 <Image
                   source={Images.Right_Arrow}
                   style={style.imageStyle}
                   resizeMode="contain"
                 />
-              </View>
+              </TouchableOpacity>
               <NetButton
                 onPress={() => navigation.navigate('PersonalInfoScreen')}
-                text={Strings.NoEarning}
-                touchableStyle={style.nextbutton}
-                textStyle={style.nexttext}
+                text={!enableButton ? Strings.Done : Strings.NoEarning}
+                touchableStyle={!enableButton ? style.nextbutton1:style.nextbutton}
+                textStyle={!enableButton ? style.nexttext1:style.nexttext}
               />
             </View>
           </View>
@@ -273,12 +407,12 @@ const style = StyleSheet.create({
     marginBottom: responsiveHeight(5),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(2.5),
     alignSelf: 'center',
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(80),
@@ -286,17 +420,17 @@ const style = StyleSheet.create({
     color: Colors.Dark_Gray,
   },
   titleStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(3),
     alignSelf: 'center',
-    width: responsiveWidth(70),
+    width: responsiveWidth(80),
     marginTop: responsiveHeight(5),
     fontWeight: 'bold',
     textAlign: 'center',
     color: Colors.White,
   },
   textStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.8),
     width: responsiveWidth(50),
     marginTop: responsiveHeight(5),
@@ -305,25 +439,32 @@ const style = StyleSheet.create({
   textInputStyle: {
     borderRadius: responsiveWidth(2),
     marginTop: responsiveWidth(-1),
+    backgroundColor: Colors.White,
+    color:Colors.Black
   },
   switchView: {
     flexDirection: 'row',
-    backgroundColor: Colors.TextInput_Background,
-    width: '45%',
+    backgroundColor: Colors.White,
+    width: '50%',
     height: responsiveWidth(12),
     borderRadius: responsiveWidth(2),
     alignSelf: 'center',
     marginTop: responsiveWidth(8),
+    overflow: 'hidden',
+  },
+  text: {
+    textAlign: 'center',
+    fontFamily: fontFamily.Poppins_Medium,
+    fontSize: responsiveFontSize(1.6),
   },
   switchStyle: {
-    width: '50%',
-    height: '100%',
+    width: '47%',
+    height: '80%',
     borderRadius: responsiveWidth(2),
-    paddingTop: responsiveWidth(3.5),
+    justifyContent: 'center',
     alignSelf: 'center',
-    textAlign: 'center',
-    fontFamily: fontFamily.Roboto_Medium,
-    fontSize: responsiveFontSize(1.6),
+    overflow: 'hidden',
+    margin: responsiveHeight(0.2),
   },
   centeredView: {
     flex: 1,
@@ -332,7 +473,7 @@ const style = StyleSheet.create({
     backgroundColor: Colors.Dark_Gray,
   },
   textDetailStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.5),
     alignSelf: 'center',
     width: responsiveWidth(70),
@@ -346,7 +487,7 @@ const style = StyleSheet.create({
     paddingStart: responsiveWidth(5),
   },
   totalStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(60),
@@ -355,7 +496,7 @@ const style = StyleSheet.create({
     color: Colors.Text_Black,
   },
   iagreeText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     alignItems: 'center',
@@ -372,7 +513,7 @@ const style = StyleSheet.create({
   round: {
     height: responsiveWidth(6),
     width: responsiveWidth(6),
-    borderRadius: responsiveWidth(6) / 2,
+    borderRadius: responsiveWidth(2),
     alignSelf: 'center',
     justifyContent: 'center',
   },
@@ -420,7 +561,7 @@ const style = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     marginBottom: 20,
   },
   header: {
@@ -430,30 +571,33 @@ const style = StyleSheet.create({
     marginTop: responsiveWidth(5),
     borderColor: Colors.Border_Gray,
     borderWidth: responsiveWidth(0.3),
-    borderRadius: responsiveWidth(5),
+    borderRadius: responsiveWidth(3),
   },
   headerText: {
     textAlign: 'center',
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontWeight: '500',
   },
   content: {
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.gray,
     flexDirection: 'row',
+    marginTop: responsiveWidth(3),
+    marginBottom: responsiveWidth(3),
+    borderRadius: responsiveWidth(4),
   },
   active: {
-    backgroundColor: Colors.White,
+    backgroundColor: Colors.gray,
     borderColor: Colors.Border_Gray,
     borderWidth: responsiveWidth(0.3),
-    borderRadius: responsiveWidth(5),
+    borderRadius: responsiveWidth(3),
   },
   inactive: {
-    backgroundColor: Colors.White,
+    backgroundColor: Colors.gray,
     borderColor: Colors.Border_Gray,
     borderWidth: responsiveWidth(0.3),
-    borderRadius: responsiveWidth(5),
+    borderRadius: responsiveWidth(3),
   },
   selectors: {
     marginBottom: 10,
@@ -472,7 +616,7 @@ const style = StyleSheet.create({
   },
   selectTitle: {
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontWeight: '500',
     padding: 10,
     textAlign: 'center',
@@ -485,7 +629,7 @@ const style = StyleSheet.create({
   },
   multipleToggle__title: {
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     marginRight: 8,
   },
   blueLineView: {width: '8%', justifyContent: 'center', alignSelf: 'center'},
@@ -504,7 +648,7 @@ const style = StyleSheet.create({
     borderRadius: 0,
   },
   textView: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.6),
     color: Colors.Text_Black,
     width: '100%',
@@ -519,7 +663,19 @@ const style = StyleSheet.create({
   },
   nexttext: {
     color: Colors.Gray_7f,
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
+    fontSize: responsiveFontSize(1.8),
+    alignSelf: 'center',
+  },
+  nextbutton1: {
+    marginTop: responsiveWidth(5),
+    backgroundColor: Colors.Black,
+    borderRadius: responsiveWidth(6),
+    width: responsiveWidth(65),
+  },
+  nexttext1: {
+    color: Colors.White,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.8),
     alignSelf: 'center',
   },
