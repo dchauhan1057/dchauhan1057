@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
+import LinearGradient from 'react-native-linear-gradient';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -80,11 +81,11 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(3),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.6),
     alignSelf: 'center',
     width: responsiveWidth(70),
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
   },
   titleStringText: {
     textAlign: 'center',
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(5),
     paddingStart: responsiveWidth(3),
     color: Colors.Dark_Gray,

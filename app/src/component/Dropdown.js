@@ -2,7 +2,7 @@ import React, {useState, useCallback} from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 // Library
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import LinearGradient from 'react-native-linear-gradient';
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
 import {Colors} from '../../res/colors/Colors';
@@ -51,7 +51,7 @@ const Dropdown = props => {
 //------------------------------------------------StyleSheet Call-----------------------------------------------------------------------
 const style = StyleSheet.create({
   questionText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
     marginStart: responsiveWidth(4.9),
     marginTop: responsiveHeight(2),

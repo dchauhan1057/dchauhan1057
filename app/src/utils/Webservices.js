@@ -2,7 +2,36 @@
 import axios from 'axios';
 import {LogDisplay} from './LogDisplay';
 
-const default_url = 'https://api.virdi.no/v2/';
+// const default_url = 'https://api.virdi.no/v2/';
+const baseUrl =
+  'https://hnwwqw5t8a.execute-api.us-east-1.amazonaws.com/dev/user/';
+
+export function getApi(url) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(baseUrl + url)
+      .then(response => {
+        console.log(response.data.data);
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+}
+export function postApi(url, data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(baseUrl + url, data)
+      .then(response => {
+        console.log(response.data);
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+}
 
 export function PublicPostUrl(url, data) {
   return new Promise((resolve, reject) => {
@@ -20,6 +49,7 @@ export function PublicPostUrl(url, data) {
       })
       .catch(function (error) {
         LogDisplay('Here Error');
+        LogDisplay(error);
         LogDisplay(error.response.data);
         LogDisplay(error.response.status);
         LogDisplay(error.response.headers);

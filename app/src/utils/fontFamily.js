@@ -1,5 +1,6 @@
 export const fontFamily = {
-  Roboto_Regular: 'Roboto-Regular',
-  Roboto_Bold: 'Roboto-Bold',
-  Roboto_Medium: 'Roboto-Medium',
+  Poppins_Regular: 'Poppins-Regular',
+  Poppins_Bold: 'Poppins-Bold',
+  Poppins_SemiBold: 'Poppins-SemiBold',
+  Poppins_Medium: 'Poppins-Medium',
 };

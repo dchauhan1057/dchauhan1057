@@ -5,11 +5,15 @@ import {
   Text,
   ScrollView,
   SafeAreaView,
+  TouchableOpacity,
   Image,
+  Modal,
+  FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DropDownPicker from 'react-native-dropdown-picker';
+import LinearGradient from 'react-native-linear-gradient';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -20,13 +24,7 @@ import {
   responsiveHeight,
   responsiveFontSize,
 } from '../utils/Size';
-import {
-  carsArray,
-  memberArray,
-  maritalArray,
-  childrensArray,
-  educationArray,
-} from '../utils/Constant';
+import {nationalID} from '../utils/Constant';
 // Component
 import Dropdown from '../component/Dropdown';
 import NetButton from '../component/NetButton';
@@ -45,17 +43,15 @@ const CoBorrowerScreen = ({props, route}) => {
   const [address, setaddress] = useState('');
   const [phoneNumber, setphoneNumber] = useState('');
   const [nationalId, setnationalId] = useState('');
+  const [code, setcode] = useState('+123');
+  const [search, setsearch] = useState('');
+  const [errorsearch, seterrorsearch] = useState('');
   const [errorAddress, seterrorAddress] = useState('');
   const [errorphoneNumber, seterrorphoneNumber] = useState('');
   const [errornationalId, seterrornationalId] = useState('');
-  const [value, setValue] = React.useState(true);
   const [expanded, setExpanded] = React.useState(false);
+  const [somethingwentwrong, setsomethingwentwrong] = React.useState(false);
   //------------------------------------------------Function Call-----------------------------------------------------------------------
-  const toggleExpand = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setExpanded(false);
-    setValue(value);
-  };
   const checkValidation = () => {
     if (address === '') {
       seterrorAddress('Please enter address');
@@ -68,12 +64,38 @@ const CoBorrowerScreen = ({props, route}) => {
     }
   };
   //------------------------------------------------Renturn Call-----------------------------------------------------------------------
+  const renderItem = ({item}) => (
+    <TouchableOpacity
+      onPress={() => {
+        setExpanded(false);
+        setcode(item.value);
+      }}
+      style={style.renderStyle}>
+      <View style={{width: '20%', paddingStart: responsiveWidth(8)}}>
+        <View style={style.grayroundView}>
+          <Text
+            style={[
+              style.textMain,
+              {color: Colors.Orange, alignSelf: 'center'},
+            ]}>
+            A
+          </Text>
+        </View>
+      </View>
+      <View style={style.locationtextView}>
+        <View style={style.item}>
+          <Text style={style.title}>Country Name</Text>
+          <Text style={style.subtitle}>{item.value}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+  //------------------------------------------------Renturn Call-----------------------------------------------------------------------
   return (
     <SafeAreaView style={style.container}>
       <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1}}>
-        <View style={style.container}>
-          <Image
-            source={Images.Close_Icon}
+        <View style={[style.container]}>
+          <TouchableOpacity
             resizeMode={'contain'}
             style={{
               alignSelf: 'flex-end',
@@ -81,27 +103,28 @@ const CoBorrowerScreen = ({props, route}) => {
               width: responsiveWidth(4),
               marginEnd: responsiveWidth(6),
             }}
-          />
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Image source={Images.Close_Icon} />
+          </TouchableOpacity>
           <Text style={style.titleStringText}>Do you have a co-borrower?</Text>
-          <Text style={style.personalStringText}>
+          <Text style={style.formDesc}>
             {
-              'If you have a co-borrower we also need ther automatisation using '
+              "We'll send invite for the co-borrower, so they can create account using "
             }
-            <Text
-              style={[
-                style.personalStringText,
-                {textDecorationLine: 'underline'},
-              ]}>
+            <Text style={[style.formDesc, {textDecorationLine: 'underline'}]}>
               {'BankID'}
             </Text>
-            <Text style={style.personalStringText}>{'.'}</Text>
+            <Text style={style.formDesc}>{'.'}</Text>
           </Text>
           <NetTextInput
+            keyboardType={'email-address'}
             placeholder={Strings.Emailaddress}
             textInput={style.textInputstyle}
             value={address}
             onChangeText={address => {
-              seterrorAddress("")
+              seterrorAddress('');
               setaddress(address);
             }}
             error={errorAddress}
@@ -110,58 +133,41 @@ const CoBorrowerScreen = ({props, route}) => {
             style={{
               flexDirection: 'row',
               backgroundColor: '#F6F5F3',
-              marginStart: responsiveWidth(12),
+              marginStart: responsiveWidth(8),
               height: responsiveWidth(13),
-              width: '75%',
-              marginTop: responsiveWidth(10),
-              marginBottom: responsiveWidth(10),
+              width: '84%',
+              borderRadius: responsiveWidth(3),
+              marginTop: responsiveWidth(5),
+              marginBottom: responsiveWidth(4),
               zIndex: 10000,
             }}>
-            <View
+            <TouchableOpacity
+              onPress={() => setExpanded(true)}
               style={{
                 height: responsiveWidth(13),
+                width: responsiveWidth(20),
+                backgroundColor: Colors.Black,
+                justifyContent: 'center',
+                borderRadius: responsiveWidth(2),
               }}>
-              <DropDownPicker
-                placeholder={'+412'}
+              <Text
                 style={{
-                  width: responsiveWidth(20),
-                  backgroundColor: Colors.Black,
-                  borderRadius: responsiveWidth(3),
-                }}
-                zIndexInverse={1000}
-                items={data}
-                defaultIndex={0}
-                dropDownStyle={{
-                  borderRadius: 10,
-                  height: responsiveWidth(20),
-                  width: responsiveWidth(20),
-                }}
-                containerStyle={{
-                  height: responsiveWidth(20),
-                  width: responsiveWidth(20),
-                }}
-                itemStyle={{
-                  justifyContent: 'flex-start',
-                  marginStart: responsiveWidth(5),
-                  fontSize: responsiveFontSize(1.5),
-                }}
-                textStyle={{
-                  fontSize: responsiveFontSize(1.5),
                   color: Colors.White,
-                  fontFamily: fontFamily.Roboto_Medium,
-                }}
-                value={value}
-                open={expanded}
-                setOpen={setExpanded}
-                setValue={setValue}
-              />
-            </View>
+                  fontFamily: fontFamily.Poppins_Medium,
+                  fontSize: responsiveFontSize(2),
+                  alignSelf: 'center',
+                  textAlign: 'center',
+                }}>
+                {code}
+              </Text>
+            </TouchableOpacity>
             <NetTextInput
+              keyboardType={'numeric'}
               placeholder={Strings.PhoneNumber}
               textInput={style.textInputNumberstyle}
               value={phoneNumber}
               onChangeText={phoneNumber => {
-                seterrorphoneNumber("")
+                seterrorphoneNumber('');
                 setphoneNumber(phoneNumber);
               }}
               error={errorphoneNumber}
@@ -169,29 +175,105 @@ const CoBorrowerScreen = ({props, route}) => {
             />
           </View>
           <NetTextInput
+            keyboardType={'numeric'}
             placeholder={Strings.NationalID}
             textInput={style.textInputstyle}
             value={nationalId}
             onChangeText={nationalId => {
-              seterrornationalId("")
+              seterrornationalId('');
               setnationalId(nationalId);
             }}
             error={errornationalId}
           />
           <Text style={style.personalStringText}>
-            By pressing Done button you accept the Terms of Mortgage Club
+            Text: why do we need this ?
           </Text>
 
           <NetButton
             onPress={() => checkValidation()}
             text={Strings.Done}
             touchableStyle={{
-              backgroundColor: Colors.Black,
+              backgroundColor: Colors.Gray_CC,
               width: '78%',
-              marginTop: responsiveWidth(15),
+              marginTop: responsiveWidth(50),
             }}
-            textStyle={{color: Colors.White}}
+            textStyle={{color: Colors.Gray_7f}}
           />
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={expanded}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+              setExpanded(!expanded);
+            }}>
+            <View style={[style.centeredView, {justifyContent: 'flex-end'}]}>
+              <View style={style.modal1View}>
+                <Text
+                  style={[
+                    style.textMain,
+                    {
+                      fontFamily: fontFamily.Poppins_Bold,
+                      alignSelf: 'center',
+                      marginTop: responsiveWidth(5),
+                    },
+                  ]}>
+                  Country Code
+                </Text>
+                <NetTextInput
+                  placeholder={Strings.Search}
+                  textInput={style.textInputstyle}
+                  value={search}
+                  onChangeText={search => {
+                    seterrorsearch('');
+                    setsearch(search);
+                    setExpanded(false);
+                  }}
+                  error={errorsearch}
+                />
+                <FlatList
+                  data={nationalID}
+                  renderItem={renderItem}
+                  keyExtractor={item => item.id}
+                />
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={somethingwentwrong}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+              setsomethingwentwrong(!somethingwentwrong);
+            }}>
+            <View style={style.centeredView}>
+              <View style={style.modalView}>
+                <Text
+                  style={[
+                    style.personalStringText,
+                    {
+                      fontFamily: fontFamily.Poppins_Bold,
+                      marginBottom: responsiveWidth(2),
+                    },
+                  ]}>
+                  Requested
+                </Text>
+                <Text
+                  style={[
+                    style.personalStringText,
+                    {
+                      marginTop: 0,
+                      width: responsiveWidth(60),
+                      marginTop: responsiveWidth(3),
+                    },
+                  ]}>
+                  Lorem ipsum is a common placeholder text used to show visual
+                  element on the UI layout.
+                </Text>
+              </View>
+            </View>
+          </Modal>
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
@@ -207,30 +289,40 @@ const style = StyleSheet.create({
     backgroundColor: Colors.White,
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     textAlign: 'center',
     width: responsiveWidth(75),
     color: Colors.Black,
     marginBottom: responsiveWidth(4),
-    marginTop: responsiveWidth(10),
+    marginTop: responsiveWidth(3),
   },
-  titleStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
-    fontSize: responsiveFontSize(3),
-    width: responsiveWidth(50),
-    color: Colors.Black,
+  formDesc: {
+    fontFamily: fontFamily.Poppins_Regular,
+    fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     textAlign: 'center',
+    width: responsiveWidth(85),
+    color: Colors.Black,
+    lineHeight: 24,
+    fontWeight: '400',
+    letterSpacing: -0.15,
     marginBottom: responsiveWidth(4),
+    marginTop: responsiveWidth(3),
   },
-  textInputstyle: {
-    width: responsiveWidth(78),
-    borderRadius: responsiveWidth(3),
-    marginTop: responsiveWidth(-2),
-    backgroundColor: '#F6F5F3',
+  titleStringText: {
+    fontFamily: fontFamily.Poppins_SemiBold,
+    fontSize: responsiveFontSize(3),
+    width: responsiveWidth(50),
+    color: Colors.BlackText,
+    alignSelf: 'center',
+    textAlign: 'center',
+    lineHeight: 32,
+    fontWeight: '600',
+    marginTop: responsiveWidth(10),
   },
+
   bottomView: {
     flexDirection: 'row',
     marginTop: responsiveWidth(40),
@@ -251,23 +343,80 @@ const style = StyleSheet.create({
     tintColor: Colors.White,
   },
   textInputstyle: {
-    width: responsiveWidth(78),
+    width: responsiveWidth(85),
     borderRadius: responsiveWidth(3),
     marginTop: responsiveWidth(1),
     backgroundColor: '#F6F5F3',
     marginTop: responsiveWidth(-8),
     color: Colors.Black,
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
   },
   textInputNumberstyle: {
-    width: responsiveWidth(53),
+    width: responsiveWidth(62),
     borderRadius: responsiveWidth(3),
-    marginStart: responsiveWidth(2),
     backgroundColor: '#F6F5F3',
     height: responsiveWidth(12),
     marginTop: responsiveWidth(-9),
     color: Colors.Black,
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#000000CC",
+  },
+  modalView: {
+    height: responsiveWidth(50),
+    width: responsiveWidth(70),
+    backgroundColor: 'white',
+    borderRadius: responsiveWidth(4),
+    padding: responsiveWidth(2),
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  modal1View: {
+    height: '90%',
+    width: '100%',
+    backgroundColor: 'white',
+    borderTopLeftRadius: responsiveWidth(4),
+    borderTopRightRadius: responsiveWidth(4),
+    padding: responsiveWidth(2),
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  renderView: {
+    width: '90%',
+    borderColor: Colors.BorderGray,
+    borderWidth: responsiveWidth(0.3),
+    borderRadius: responsiveWidth(3),
+    padding: responsiveWidth(3),
+    margin: responsiveWidth(3),
+  },
+  renderStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: responsiveWidth(2),
+    margin: responsiveWidth(1),
+  },
+  grayroundView: {
+    backgroundColor: Colors.circleGray,
+    height: responsiveWidth(10),
+    width: responsiveWidth(10),
+    borderRadius: responsiveWidth(10) / 2,
+    justifyContent: 'center',
+    marginStart: responsiveWidth(-5),
+  },
+  locationpinImage: {
+    tintColor: Colors.Orange,
+    height: responsiveWidth(4),
+    width: responsiveWidth(3),
+    alignSelf: 'center',
+  },
+  locationtextView: {
+    width: '80%',
+    justifyContent: 'flex-start',
+    alignContent: 'flex-start',
   },
 });
 export default CoBorrowerScreen;

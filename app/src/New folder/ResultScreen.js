@@ -129,13 +129,14 @@ const ResultScreen = ({props, route}) => {
             resizeMode={'contain'}
           />
           <View style={style.bottomView}>
-            <View style={style.roundView}>
+          <TouchableOpacity
+                onPress={() => navigation.goBack()} style={style.roundView}>
               <Image
                 source={Images.Right_Arrow}
                 style={style.imageStyle}
                 resizeMode="contain"
               />
-            </View>
+            </TouchableOpacity>
             <NetButton
               onPress={() => navigation.navigate('IncomeInformationScreen')}
               text={Strings.NextStep}
@@ -163,11 +164,11 @@ const style = StyleSheet.create({
     padding: responsiveWidth(3),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.6),
     alignSelf: 'center',
     width: responsiveWidth(83),
@@ -175,7 +176,7 @@ const style = StyleSheet.create({
     color: Colors.Dark_Gray,
   },
   titleStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(2.5),
     paddingStart: responsiveWidth(5),
     marginTop: responsiveHeight(5),
@@ -223,7 +224,7 @@ const style = StyleSheet.create({
     marginTop: responsiveHeight(8),
   },
   totalStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(60),

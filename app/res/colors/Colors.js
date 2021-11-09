@@ -1,6 +1,7 @@
 export const Colors = {
   White: '#fff',
   Black: '#000',
+  BlackText: "#0C1217",
   Dropdown_Border: '#293D5B',
   Dark_Gray: '#565656',
   TextInput_Background: '#F7F7F7',
@@ -19,5 +20,8 @@ export const Colors = {
   Light_Black: '#505868',
   Red: 'red',
   Orange:"#FF8D69",
-  gray:"#F3F4F6"
+  gray:"#F3F4F6",
+  greyText: "#C5CAD3",
+  circleGray:"#F2F2F2",
+  grayText:"#8C95A6"
 };

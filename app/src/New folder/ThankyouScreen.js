@@ -85,12 +85,12 @@ const style = StyleSheet.create({
     marginBottom: responsiveHeight(5),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(2.5),
     alignSelf: 'center',
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(55),
@@ -99,7 +99,7 @@ const style = StyleSheet.create({
     marginTop: responsiveWidth(10),
   },
   titleStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(3),
     alignSelf: 'center',
     width: responsiveWidth(60),

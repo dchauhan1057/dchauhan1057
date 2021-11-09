@@ -84,13 +84,14 @@ const MortgageScreen = ({props, route}) => {
             </Text>
           </View>
           <View style={style.bottomView}>
-            <View style={style.roundView}>
+          <TouchableOpacity
+                onPress={() => navigation.goBack()} style={style.roundView}>
               <Image
                 source={Images.Right_Arrow}
                 style={style.imageStyle}
                 resizeMode="contain"
               />
-            </View>
+            </TouchableOpacity>
             <NetButton
               onPress={() => navigation.navigate('IncomeInformationScreen')}
               text={Strings.NextStep}
@@ -115,19 +116,19 @@ const style = StyleSheet.create({
     marginBottom: responsiveHeight(5),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(2.5),
     alignSelf: 'center',
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(80),
     marginTop: responsiveHeight(5),
   },
   titleStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(3),
     alignSelf: 'center',
     width: responsiveWidth(70),
@@ -137,7 +138,7 @@ const style = StyleSheet.create({
     color: Colors.Dark_Gray,
   },
   textStyle: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.6),
     color: '#212B36',
     marginStart: responsiveWidth(5),
@@ -193,7 +194,7 @@ const style = StyleSheet.create({
     marginTop: responsiveHeight(8),
   },
   totalStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(60),

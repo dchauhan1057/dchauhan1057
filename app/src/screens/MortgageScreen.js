@@ -11,10 +11,13 @@ import {
   Modal,
   FlatList,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
 import DropDownPicker from 'react-native-dropdown-picker';
+import LinearGradient from 'react-native-linear-gradient';
+import Slider from 'react-native-slider';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -43,13 +46,13 @@ const MortgageScreen = ({props, route}) => {
   const [additionalSecurity, setadditionalSecurity] = React.useState(false);
   const [chooseFlat, setchooseFlat] = React.useState(false);
   const [chooseFlatArray, setchooseFlatArray] = React.useState([
-    {address: 'HELLO', price_per_sqm: '12234', price: '123456'},
-    {address: 'HELLO', price_per_sqm: '12234', price: '123456'},
-    {address: 'HELLO', price_per_sqm: '12234', price: '123456'},
-    {address: 'HELLO', price_per_sqm: '12234', price: '123456'},
-    {address: 'HELLO', price_per_sqm: '12234', price: '123456'},
-    {address: 'HELLO', price_per_sqm: '12234', price: '123456'},
-    {address: 'HELLO', price_per_sqm: '12234', price: '123456'},
+    {address: 'Flat * 123', price_per_sqm: '12234', price: '123456'},
+    {address: 'Flat * 123', price_per_sqm: '12234', price: '123456'},
+    {address: 'Flat * 123', price_per_sqm: '12234', price: '123456'},
+    {address: 'Flat * 123', price_per_sqm: '12234', price: '123456'},
+    {address: 'Flat * 123', price_per_sqm: '12234', price: '123456'},
+    {address: 'Flat * 123', price_per_sqm: '12234', price: '123456'},
+    {address: 'Flat * 123', price_per_sqm: '12234', price: '123456'},
   ]);
   const [confirmMarket, setconfirmMarket] = React.useState(false);
   const [purpose, setpurpose] = React.useState(false);
@@ -81,13 +84,11 @@ const MortgageScreen = ({props, route}) => {
   const [errorchoosebank, seterrorchoosebank] = React.useState('');
   const [errormarketvalue, seterrormarketvalue] = React.useState('');
   const [marketvalue, setmarketvalue] = React.useState('');
+
+  const [search, setsearch] = useState('');
+  const [errorsearch, seterrorsearch] = useState('');
+  const [enableButton, setenableButton] = useState(true);
   //------------------------------------------------Function Call-----------------------------------------------------------------------
-  const toggleExpand = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setExpanded(false);
-    setValue(value);
-    seterrorchoosebank('');
-  };
   const checkValidation = () => {
     if (choosebank === '') {
       seterrorchoosebank('Please select an bank');
@@ -97,10 +98,38 @@ const MortgageScreen = ({props, route}) => {
     } else if (interest === '') {
       seterrorinterest('Please select an bank');
     } else {
-      navigation.navigate('UnsecuredLoanScreen');
+      // navigation.navigate('UnsecuredLoanScreen');
+      setenableButton(false);
     }
   };
   //------------------------------------------------Render Call-----------------------------------------------------------------------
+  const renderDropdownItem = ({item}) => (
+    <TouchableOpacity
+      onPress={() => {
+        setExpanded(false);
+        setchoosebank(item.value);
+        seterrorchoosebank('');
+      }}
+      style={style.renderStyle}>
+      <View style={{width: '20%', paddingStart: responsiveWidth(8)}}>
+        <View style={style.grayroundView}>
+          <Text
+            style={[
+              style.textMain,
+              {color: Colors.Orange, alignSelf: 'center'},
+            ]}>
+            A
+          </Text>
+        </View>
+      </View>
+      <View style={style.locationtextView}>
+        <View style={style.item}>
+          <Text style={style.title}>Bank Name</Text>
+          <Text style={style.subtitle}>{item.value}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
   const addMortageCall = () => {
     return (
       <Modal
@@ -126,47 +155,56 @@ const MortgageScreen = ({props, route}) => {
         <View
           style={{
             width: '90%',
-            marginStart: responsiveWidth(8),
+            marginStart: responsiveWidth(5),
             paddingTop: responsiveWidth(5),
           }}>
-          <DropDownPicker
-            placeholder={'Choose bank'}
-            items={bankArray}
-            style={{
-              width: responsiveWidth(83),
-              borderWidth: 1,
-              borderColor: Colors.Black,
-              borderRadius: responsiveWidth(3),
-            }}
-            zIndexInverse={1000}
-            defaultIndex={0}
-            dropDownStyle={{
-              borderRadius: 10,
-              height: responsiveWidth(20),
-              width: responsiveWidth(83),
-            }}
-            containerStyle={{
-              height: responsiveWidth(20),
-              width: responsiveWidth(83),
-            }}
-            itemStyle={{
-              justifyContent: 'flex-start',
-              marginStart: responsiveWidth(5),
-              fontSize: responsiveFontSize(1.5),
-            }}
-            value={value}
-            open={expanded}
-            setOpen={setExpanded}
-            setValue={setValue}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              setenableButton(false);
+              setExpanded(true);
+            }}>
+            <View
+              style={{
+                height: responsiveWidth(12),
+                width: responsiveWidth(83),
+                backgroundColor: Colors.gray,
+                alignSelf: 'center',
+                justifyContent: 'center',
+                borderRadius: responsiveWidth(2),
+                paddingStart: responsiveWidth(4),
+                flexDirection: 'row',
+              }}>
+              <Text
+                style={[
+                  style.textInputStyle,
+                  {
+                    width: '90%',
+                    alignSelf: 'center',
+                    marginTop: responsiveWidth(1),
+                    color:
+                      choosebank === '' || null
+                        ? Colors.LineGray
+                        : Colors.Black,
+                  },
+                ]}>
+                {choosebank === '' || null ? 'Please select bank' : choosebank}
+              </Text>
+              <Image
+                source={expanded ? Images.Up_Arrow : Images.Down_Arrow}
+                style={style.downimageStyle}
+                resizeMode="contain"
+              />
+            </View>
+          </TouchableOpacity>
           {seterrorchoosebank != '' ? (
             <Text
               style={{
-                fontFamily: fontFamily.Roboto_Regular,
+                fontFamily: fontFamily.Poppins_Regular,
                 fontSize: responsiveFontSize(1.5),
                 color: Colors.Red,
-                marginTop: responsiveWidth(-6),
+                marginTop: responsiveWidth(0),
                 marginBottom: responsiveWidth(6),
+                marginStart: responsiveWidth(4),
                 width: '78%',
               }}>
               {errorchoosebank}
@@ -176,16 +214,19 @@ const MortgageScreen = ({props, route}) => {
         <NetTextInput
           textInput={[
             style.textInputStyle,
-            {width: responsiveWidth(83), marginTop: responsiveWidth(-10)},
+            {width: responsiveWidth(83), marginTop: responsiveWidth(-15)},
           ]}
           placeholder={'Outstanding loan amount'}
           value={amount}
           onChangeText={async amount => {
             seterroramount('');
             setamount(amount);
+            setenableButton(false);
           }}
+          keyboardType={'numeric'}
           error={erroramount}
           errorStyle={{marginStart: responsiveWidth(8)}}
+          keyboardType={'numeric'}
         />
         <View
           style={{
@@ -193,7 +234,14 @@ const MortgageScreen = ({props, route}) => {
             width: responsiveWidth(88),
             alignSelf: 'center',
           }}>
-          <View style={{width: '50%'}}>
+          <View
+            style={{
+              width: '50%',
+              marginTop:
+                errorinterest === ''
+                  ? responsiveWidth(-4)
+                  : responsiveWidth(-8),
+            }}>
             <NetTextInput
               textInput={style.textInputStyle}
               placeholder={'Interest rate'}
@@ -201,7 +249,9 @@ const MortgageScreen = ({props, route}) => {
               onChangeText={interest => {
                 seterrorinterest('');
                 setinterest(interest);
+                setenableButton(false);
               }}
+              keyboardType={'numeric'}
               error={errorinterest}
               errorStyle={{marginStart: responsiveWidth(2)}}
             />
@@ -212,55 +262,83 @@ const MortgageScreen = ({props, route}) => {
               {
                 marginTop:
                   errorinterest === ''
-                    ? responsiveWidth(8)
+                    ? responsiveWidth(3)
                     : responsiveWidth(1),
               },
             ]}>
-            <Text
-              onPress={() => setisFixed(false)}
-              style={[
-                style.switchStyle,
-                {
-                  backgroundColor: !isFixed
-                    ? Colors.Black
-                    : Colors.TextInput_Background,
-                  color: !isFixed ? Colors.White : Colors.Gray_7f,
-                },
-              ]}>
-              Fixed
-            </Text>
-            <Text
-              onPress={() => setisFixed(true)}
-              style={[
-                style.switchStyle,
-                {
-                  backgroundColor: isFixed
-                    ? Colors.Black
-                    : Colors.TextInput_Background,
-                  color: isFixed ? Colors.White : Colors.Gray_7f,
-                },
-              ]}>
-              Floating
-            </Text>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 1}}
+              colors={
+                !isFixed
+                  ? ['#505868', '#0C1217', '#0C1217']
+                  : [
+                      Colors.TextInput_Background,
+                      Colors.TextInput_Background,
+                      Colors.TextInput_Background,
+                    ]
+              }
+              style={style.switchStyle}>
+              <Text
+                style={[
+                  style.text,
+                  {
+                    color: !isFixed ? Colors.White : Colors.Gray_7f,
+                  },
+                ]}
+                onPress={() => {
+                  setenableButton(false);
+                  setisFixed(false);
+                }}>
+                Fixed
+              </Text>
+            </LinearGradient>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 1}}
+              colors={
+                isFixed
+                  ? ['#505868', '#0C1217', '#0C1217']
+                  : [
+                      Colors.TextInput_Background,
+                      Colors.TextInput_Background,
+                      Colors.TextInput_Background,
+                    ]
+              }
+              style={style.switchStyle}>
+              <Text
+                style={[
+                  style.text,
+                  {
+                    color: isFixed ? Colors.White : Colors.Gray_7f,
+                  },
+                ]}
+                onPress={() => {
+                  setenableButton(false);
+                  setisFixed(true);
+                }}>
+                Floating
+              </Text>
+            </LinearGradient>
             <View>
               <Text></Text>
             </View>
           </View>
         </View>
-        <Progress.Bar
-          progress={0.3}
-          width={350}
-          color={Colors.Black}
-          unfilledColor={'#F6F5F3'}
-          style={{alignSelf: 'center', marginTop: responsiveWidth(5)}}
-        />
-        <NetImageTextButton
-          onPress={() => setaddSecurity(true)}
-          text={Strings.Addloan}
-          image={Images.Plus_Arrow}
-          textStyle={style.addtextstyle}
-          imagestyle={style.addimageStyle}
-          touchableStyle={style.addtouchbutton}
+        <Slider
+          thumbImage={'12'}
+          minimumValue={0}
+          maximumValue={1}
+          minimumTrackTintColor={Colors.Black}
+          maximumTrackTintColor="#F3F4F6"
+          thumbTintColor={Colors.Black}
+          width="82%"
+          style={{alignSelf: 'center', marginTop: responsiveWidth(8)}}
+          thumbStyle={{
+            height: responsiveWidth(8),
+            width: responsiveWidth(11),
+            borderRadius: responsiveWidth(5),
+          }}
         />
       </View>
     );
@@ -283,14 +361,14 @@ const MortgageScreen = ({props, route}) => {
                 style.personalStringText,
                 {
                   width: '75%',
-                  fontFamily: fontFamily.Roboto_Regular,
+                  fontFamily: fontFamily.Poppins_Regular,
                   textAlign: 'center',
                 },
               ]}>
               Select property to be used as security and estimate market value.
             </Text>
             <NetTextInput
-              textInput={[style.textInputStyle, {width: responsiveWidth(80)}]}
+              textInput={[style.textInputStyle, {width: responsiveWidth(85)}]}
               placeholder={'Street name, building number'}
               onChangeText={async searchAddress => {
                 setsearchAddress(searchAddress);
@@ -348,24 +426,53 @@ const MortgageScreen = ({props, route}) => {
             <Text
               style={[
                 style.personalStringText,
-                {width: '75%', fontFamily: fontFamily.Roboto_Regular},
+                {width: '90%', fontFamily: fontFamily.Poppins_Regular},
               ]}>
-              Lorem ipsum is a placeholder text commonly used to demonstrate the
-              visual content.
+              {
+                'Lorem ipsum is a placeholder text \ncommonly used to demonstrate the visual content.'
+              }
             </Text>
-            <View style={{width: '90%'}}>
-              <Dropdown
-                placeholder={'Choose type'}
-                data={bankArray}
-                dropDown={{
-                  marginTop: responsiveHeight(2.5),
-                  width: '92%',
-                  height: responsiveHeight(6),
-                  borderWidth: 0,
-                  borderRadius: responsiveWidth(2),
-                  backgroundColor: Colors.TextInput_Background,
-                }}
-              />
+            <View style={{width: '90%', marginTop: responsiveWidth(3)}}>
+              <TouchableOpacity
+                onPress={() => {
+                  setenableButton(false);
+                  setExpanded(true);
+                }}>
+                <View
+                  style={{
+                    height: responsiveWidth(12),
+                    width: responsiveWidth(80),
+                    backgroundColor: Colors.gray,
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                    borderRadius: responsiveWidth(2),
+                    paddingStart: responsiveWidth(4),
+                    flexDirection: 'row',
+                  }}>
+                  <Text
+                    style={[
+                      style.textInputStyle,
+                      {
+                        width: '90%',
+                        alignSelf: 'center',
+                        marginTop: responsiveWidth(1),
+                        color:
+                          choosebank === '' || null
+                            ? Colors.LineGray
+                            : Colors.Black,
+                      },
+                    ]}>
+                    {choosebank === '' || null
+                      ? 'Please select bank'
+                      : choosebank}
+                  </Text>
+                  <Image
+                    source={expanded ? Images.Up_Arrow : Images.Down_Arrow}
+                    style={style.downimageStyle}
+                    resizeMode="contain"
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
             <NetTextInput
               textInput={[
@@ -373,24 +480,22 @@ const MortgageScreen = ({props, route}) => {
                 {width: responsiveWidth(80), marginTop: responsiveWidth(-3)},
               ]}
               placeholder={'Value'}
-              onChangeText={() => alert('Called')}
+              keyboardType={'numeric'}
+              // onChangeText={() => alert('Called')}
+              error={''}
             />
-            <NetImageTextButton
-              onPress={() => setaddSecurity(true)}
-              text={Strings.Addadditionalsecurity}
-              image={Images.Plus_Arrow}
-              textStyle={style.addtextstyle}
-              imagestyle={[
-                style.addimageStyle,
-                {marginStart: responsiveWidth(18)},
-              ]}
+            <NetButton
               touchableStyle={[
-                style.addtouchbutton,
-                {
-                  width: responsiveWidth(80),
-                  marginStart: responsiveWidth(0),
-                },
+                style.nextbutton,
+                {marginTop: responsiveWidth(80)},
               ]}
+              onPress={() => {
+                setenableButton(true);
+                setadditionalSecurity(!additionalSecurity);
+                navigation.navigate("UnsecuredLoanScreen")
+              }}
+              text={Strings.Done}
+              textStyle={style.nexttext}
             />
           </View>
         </View>
@@ -428,7 +533,7 @@ const MortgageScreen = ({props, route}) => {
                 style.personalStringText,
                 {
                   width: '75%',
-                  fontFamily: fontFamily.Roboto_Regular,
+                  fontFamily: fontFamily.Poppins_Regular,
                   textAlign: 'center',
                 },
               ]}>
@@ -455,9 +560,10 @@ const MortgageScreen = ({props, route}) => {
           style={[
             style.personalStringText,
             {
-              fontFamily: fontFamily.Roboto_Regular,
+              fontFamily: fontFamily.Poppins_Regular,
               marginTop: responsiveWidth(0.5),
               fontSize: responsiveFontSize(1.4),
+              marginStart: responsiveWidth(2),
             },
           ]}>
           {item.address}
@@ -467,8 +573,10 @@ const MortgageScreen = ({props, route}) => {
             style.personalStringText,
             {
               marginTop: responsiveWidth(0.5),
-              fontSize: responsiveFontSize(1.4),
-              fontFamily: fontFamily.Roboto_Bold,
+              fontSize: responsiveFontSize(1.6),
+              fontFamily: fontFamily.Poppins_SemiBold,
+              color: Colors.Black,
+              marginStart: responsiveWidth(2),
             },
           ]}>
           {item.price_per_sqm}
@@ -477,9 +585,10 @@ const MortgageScreen = ({props, route}) => {
           style={[
             style.personalStringText,
             {
-              fontFamily: fontFamily.Roboto_Regular,
+              fontFamily: fontFamily.Poppins_Regular,
               marginTop: responsiveWidth(0.5),
               fontSize: responsiveFontSize(1.4),
+              marginStart: responsiveWidth(2),
             },
           ]}>
           {item.price}
@@ -518,7 +627,7 @@ const MortgageScreen = ({props, route}) => {
                 style.personalStringText,
                 {
                   width: '75%',
-                  fontFamily: fontFamily.Roboto_Regular,
+                  fontFamily: fontFamily.Poppins_Regular,
                   textAlign: 'center',
                   marginTop: responsiveWidth(2),
                   marginBottom: responsiveWidth(6),
@@ -532,7 +641,7 @@ const MortgageScreen = ({props, route}) => {
                 style={[
                   style.personalStringText,
                   {
-                    fontFamily: fontFamily.Roboto_Regular,
+                    fontFamily: fontFamily.Poppins_Regular,
                     marginTop: responsiveWidth(0.5),
                     fontSize: responsiveFontSize(1.4),
                   },
@@ -546,6 +655,7 @@ const MortgageScreen = ({props, route}) => {
                   {
                     marginStart: responsiveWidth(-7),
                     marginTop: responsiveWidth(-5),
+                    backgroundColor: Colors.White,
                   },
                 ]}
                 errorStyle={{marginStart: responsiveWidth(0.5)}}
@@ -555,12 +665,13 @@ const MortgageScreen = ({props, route}) => {
                   setmarketvalue(marketvalue);
                 }}
                 value={marketvalue}
+                keyboardType={'numeric'}
               />
               <Text
                 style={[
                   style.personalStringText,
                   {
-                    fontFamily: fontFamily.Roboto_Regular,
+                    fontFamily: fontFamily.Poppins_Regular,
                     marginTop: responsiveWidth(4),
                     fontSize: responsiveFontSize(1.4),
                   },
@@ -579,7 +690,7 @@ const MortgageScreen = ({props, route}) => {
               onPress={() => {
                 marketvalue === ''
                   ? seterrormarketvalue('Please enter value')
-                  : navigation.navigate('UnsecuredLoanScreen');
+                  : setpurpose(true);
               }}
               text={Strings.Confirm}
               textStyle={[style.nexttext, {color: Colors.White}]}
@@ -619,29 +730,173 @@ const MortgageScreen = ({props, route}) => {
               style={[
                 style.personalStringText,
                 {
-                  width: '75%',
-                  fontFamily: fontFamily.Roboto_Regular,
+                  width: '90%',
+                  fontFamily: fontFamily.Poppins_Regular,
                   textAlign: 'center',
                 },
               ]}>
-              Lorem ipsum is a placeholder text commonly used to demonstrate the
-              visual content.
+              {
+                'Lorem ipsum is a placeholder text \ncommonly used to demonstrate the visual content.'
+              }
             </Text>
-            <View style={style.renderView}>
-              <Text style={[style.personalStringText, {marginTop: 0}]}>
-                I live here
-              </Text>
-            </View>
-            <View style={style.renderView}>
-              <Text style={[style.personalStringText, {marginTop: 0}]}>
-                Holiday home
-              </Text>
-            </View>
-            <View style={style.renderView}>
-              <Text style={[style.personalStringText, {marginTop: 0}]}>
-                For income
-              </Text>
-            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setpurpose(false);
+                setadditionalSecurity(true);
+              }}>
+              <View
+                style={[
+                  style.renderView,
+                  {
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  },
+                ]}>
+                <Image
+                  source={Images.share}
+                  style={{
+                    height: responsiveWidth(5),
+                    width: responsiveWidth(5),
+                    alignSelf: 'center',
+                    tintColor: Colors.Orange,
+                    marginEnd: responsiveWidth(5),
+                  }}
+                />
+                <Text
+                  style={[
+                    style.personalStringText,
+                    {
+                      marginTop: 0,
+                      color: Colors.Black,
+                      fontFamily: fontFamily.Poppins_SemiBold,
+                      width: responsiveWidth(70),
+                    },
+                  ]}>
+                  I live here
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setpurpose(false);
+                setadditionalSecurity(true);
+              }}>
+              <View
+                style={[
+                  style.renderView,
+                  {
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  },
+                ]}>
+                <Image
+                  source={Images.share}
+                  style={{
+                    height: responsiveWidth(5),
+                    width: responsiveWidth(5),
+                    alignSelf: 'center',
+                    tintColor: Colors.Orange,
+                    marginEnd: responsiveWidth(5),
+                  }}
+                />
+                <Text
+                  style={[
+                    style.personalStringText,
+                    {
+                      marginTop: 0,
+                      color: Colors.Black,
+                      fontFamily: fontFamily.Poppins_SemiBold,
+                      width: responsiveWidth(70),
+                    },
+                  ]}>
+                  Holiday home
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setpurpose(false);
+                setadditionalSecurity(true);
+              }}>
+              <View
+                style={[
+                  style.renderView,
+                  {
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  },
+                ]}>
+                <Image
+                  source={Images.share}
+                  style={{
+                    height: responsiveWidth(5),
+                    width: responsiveWidth(5),
+                    alignSelf: 'center',
+                    tintColor: Colors.Orange,
+                    marginEnd: responsiveWidth(5),
+                  }}
+                />
+                <Text
+                  style={[
+                    style.personalStringText,
+                    {
+                      marginTop: 0,
+                      color: Colors.Black,
+                      fontFamily: fontFamily.Poppins_SemiBold,
+                      width: responsiveWidth(70),
+                    },
+                  ]}>
+                  For income
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+  const dropdowncall = () => {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={expanded}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setExpanded(!expanded);
+        }}>
+        <View style={[style.centeredView, {justifyContent: 'flex-end'}]}>
+          <View style={style.modal1View}>
+            <Text
+              style={[
+                style.textMain,
+                {
+                  fontFamily: fontFamily.Poppins_Bold,
+                  alignSelf: 'center',
+                  marginTop: responsiveWidth(5),
+                },
+              ]}>
+              Choose Bank
+            </Text>
+            <NetTextInput
+              placeholder={Strings.Search}
+              textInput={style.textInputstyle}
+              value={search}
+              onChangeText={search => {
+                seterrorsearch('');
+                setsearch(search);
+                setExpanded(false);
+              }}
+              error={errorsearch}
+            />
+            <FlatList
+              data={bankArray}
+              renderItem={renderDropdownItem}
+              keyExtractor={item => item.id}
+            />
           </View>
         </View>
       </Modal>
@@ -649,33 +904,52 @@ const MortgageScreen = ({props, route}) => {
   };
   //------------------------------------------------Renturn Call-----------------------------------------------------------------------
   return (
-    <SafeAreaView style={style.container}>
-      <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <View style={[style.container]}>
-          <View
-            style={{backgroundColor: Colors.Black, justifyContent: 'center'}}>
-            <Text style={[style.titleStringText, {color: Colors.White}]}>
-              {Strings.Mortgage}
-            </Text>
-            <Text
-              style={[
-                style.personalStringText,
-                {color: Colors.White, textAlign: 'center'},
-              ]}>
+    <SafeAreaView style={[style.container, {backgroundColor: '#2F353F'}]}>
+      <ScrollView bounces={false} contentContainerStyle={{flexGrow: 1}}>
+        <View style={[style.container, {backgroundColor: '#2F353F'}]}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={['#505868', '#0C1217', '#0C1217']}
+            style={{padding: responsiveWidth(4), height: responsiveWidth(50)}}>
+            <Progress.Bar
+              progress={0.16}
+              width={Platform.OS === 'ios' ? 320 : 250}
+              color={Colors.Orange}
+              unfilledColor={Colors.Dark_Gray}
+              style={{
+                alignSelf: 'center',
+                marginTop: responsiveWidth(5),
+                height: responsiveWidth(1.5),
+                borderColor: 'transparent',
+              }}
+            />
+            <Text style={[style.titleStringText]}>{Strings.Mortgage}</Text>
+            <Text style={[style.personalStringText, {textAlign: 'center'}]}>
               {Strings.MortgageText}
             </Text>
-          </View>
+          </LinearGradient>
           <View
             style={{
               backgroundColor: Colors.White,
               width: '99%',
               marginStart: responsiveWidth(0.6),
-              marginTop: responsiveWidth(8),
+              paddingTop: responsiveWidth(5),
               borderTopLeftRadius: responsiveWidth(5),
               borderTopRightRadius: responsiveWidth(5),
               flex: 1,
             }}>
             {switchCall()}
+            {enableButton ? null : (
+              <NetImageTextButton
+                onPress={() => setaddSecurity(true)}
+                text={Strings.Addloan}
+                image={Images.Plus_Arrow}
+                textStyle={style.addtextstyle}
+                imagestyle={style.addimageStyle}
+                touchableStyle={style.addtouchbutton}
+              />
+            )}
             <View style={style.totalView}>
               <Text style={style.totalStringText}>{Strings.Total}</Text>
               <Text style={[style.totalStringText, {fontWeight: '100'}]}>
@@ -683,18 +957,22 @@ const MortgageScreen = ({props, route}) => {
               </Text>
             </View>
             <View style={style.bottomView}>
-              <View style={style.roundView}>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={style.roundView}>
                 <Image
-                  source={Images.right_Icon}
+                  source={Images.Right_Arrow}
                   style={style.imageStyle}
                   resizeMode="contain"
                 />
-              </View>
+              </TouchableOpacity>
               <NetButton
-                touchableStyle={style.nextbutton}
+                touchableStyle={
+                  !enableButton ? style.nextbutton1 : style.nextbutton
+                }
+                textStyle={!enableButton ? style.nexttext1 : style.nexttext}
                 onPress={() => checkValidation()}
-                text={Strings.Next}
-                textStyle={style.nexttext}
+                text={!enableButton ? Strings.Done : Strings.Next}
               />
             </View>
             {addSecurityCall()}
@@ -703,6 +981,7 @@ const MortgageScreen = ({props, route}) => {
             {confirmMarketCall()}
             {purposeCall()}
             {addMortageCall()}
+            {dropdowncall()}
           </View>
         </View>
       </ScrollView>
@@ -720,31 +999,37 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
-    fontSize: responsiveFontSize(2.5),
+    fontFamily: fontFamily.Poppins_SemiBold,
+    fontSize: responsiveFontSize(2.2),
     alignSelf: 'center',
     width: responsiveWidth(70),
     textAlign: 'center',
     color: Colors.Black,
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
-    fontSize: responsiveFontSize(1.7),
+    fontFamily: fontFamily.Poppins_Regular,
+    fontSize: responsiveFontSize(1.5),
+    alignSelf: 'center',
+    width: responsiveWidth(85),
+    marginTop: responsiveHeight(5),
+    fontWeight: '200',
+    lineHeight: 24,
+    color: Colors.greyText,
+    letterSpacing: -0.15,
+  },
+  titleStringText: {
+    fontFamily: fontFamily.Poppins_SemiBold,
+    fontSize: responsiveFontSize(3),
     alignSelf: 'center',
     width: responsiveWidth(80),
     marginTop: responsiveHeight(5),
-  },
-  titleStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
-    fontSize: responsiveFontSize(3),
-    alignSelf: 'center',
-    width: responsiveWidth(70),
-    marginTop: responsiveHeight(5),
     textAlign: 'center',
-    color: Colors.Black,
+    fontWeight: '600',
+    lineHeight: 32,
+    color: Colors.White,
   },
   textStyle: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.6),
     color: '#212B36',
     marginStart: responsiveWidth(5),
@@ -780,13 +1065,17 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     paddingStart: responsiveWidth(5),
-    marginTop: responsiveWidth(15),
+    marginTop: responsiveWidth(25),
   },
   imageStyle: {
     height: responsiveWidth(5),
     width: responsiveWidth(5),
     alignSelf: 'center',
-    tintColor: Colors.White,
+  },
+  downimageStyle: {
+    height: responsiveWidth(5),
+    width: responsiveWidth(5),
+    alignSelf: 'center',
   },
   bottomView: {
     flexDirection: 'row',
@@ -801,7 +1090,7 @@ const style = StyleSheet.create({
     marginTop: responsiveHeight(3),
   },
   totalStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
     alignSelf: 'center',
     width: responsiveWidth(60),
@@ -809,7 +1098,7 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
   },
   addtextstyle: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.8),
     color: Colors.Black,
     alignSelf: 'center',
@@ -829,6 +1118,7 @@ const style = StyleSheet.create({
     borderWidth: responsiveWidth(0.1),
     width: responsiveWidth(83),
     justifyContent: 'center',
+    alignSelf: 'center',
   },
   nextbutton: {
     marginTop: responsiveWidth(5),
@@ -836,9 +1126,21 @@ const style = StyleSheet.create({
     borderRadius: responsiveWidth(6),
     width: responsiveWidth(65),
   },
+  nextbutton1: {
+    marginTop: responsiveWidth(5),
+    backgroundColor: Colors.Black,
+    borderRadius: responsiveWidth(6),
+    width: responsiveWidth(65),
+  },
   nexttext: {
     color: Colors.Gray_7f,
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
+    fontSize: responsiveFontSize(1.8),
+    alignSelf: 'center',
+  },
+  nexttext1: {
+    color: Colors.White,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.8),
     alignSelf: 'center',
   },
@@ -846,7 +1148,7 @@ const style = StyleSheet.create({
     borderRadius: responsiveWidth(2),
     marginTop: responsiveWidth(-2),
     color: Colors.Black,
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.8),
   },
   switchView: {
@@ -854,25 +1156,32 @@ const style = StyleSheet.create({
     backgroundColor: Colors.TextInput_Background,
     width: '45%',
     height: responsiveWidth(12),
-    borderRadius: responsiveWidth(2),
+    borderRadius:
+      Platform.OS === 'ios' ? responsiveWidth(4) : responsiveWidth(2),
     alignSelf: 'center',
     marginTop: responsiveWidth(8),
+    overflow: 'hidden',
+  },
+  text: {
+    textAlign: 'center',
+    fontFamily: fontFamily.Poppins_Medium,
+    fontSize: responsiveFontSize(1.6),
   },
   switchStyle: {
     width: '50%',
     height: '100%',
-    borderRadius: responsiveWidth(2),
+    borderRadius:
+      Platform.OS === 'ios' ? responsiveWidth(4) : responsiveWidth(2),
     paddingTop: responsiveWidth(3.5),
     alignSelf: 'center',
-    textAlign: 'center',
-    fontFamily: fontFamily.Roboto_Medium,
-    fontSize: responsiveFontSize(1.6),
+
+    overflow: 'hidden',
   },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.Black,
+    backgroundColor: '#000000CC',
   },
   modalView: {
     marginTop: responsiveWidth(15),
@@ -884,7 +1193,7 @@ const style = StyleSheet.create({
     padding: responsiveWidth(2),
     alignItems: 'center',
   },
-  renderView: {
+  render1View: {
     width: '90%',
     borderColor: Colors.BorderGray,
     borderWidth: responsiveWidth(0.3),
@@ -905,11 +1214,11 @@ const style = StyleSheet.create({
   },
   title: {
     fontSize: responsiveFontSize(1.8),
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
   },
   subtitle: {
     fontSize: responsiveFontSize(1.4),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
   },
   renderStyle: {
     flexDirection: 'row',
@@ -935,6 +1244,54 @@ const style = StyleSheet.create({
     width: '80%',
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#00000099',
+  },
+  modal1View: {
+    height: '90%',
+    width: '100%',
+    backgroundColor: 'white',
+    borderTopLeftRadius: responsiveWidth(4),
+    borderTopRightRadius: responsiveWidth(4),
+    padding: responsiveWidth(2),
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  renderStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: responsiveWidth(2),
+    margin: responsiveWidth(1),
+  },
+  grayroundView: {
+    backgroundColor: Colors.circleGray,
+    height: responsiveWidth(10),
+    width: responsiveWidth(10),
+    borderRadius: responsiveWidth(10) / 2,
+    justifyContent: 'center',
+    marginStart: responsiveWidth(-5),
+  },
+  locationpinImage: {
+    tintColor: Colors.Orange,
+    height: responsiveWidth(4),
+    width: responsiveWidth(3),
+    alignSelf: 'center',
+  },
+  locationtextView: {
+    width: '80%',
+    justifyContent: 'flex-start',
+    alignContent: 'flex-start',
+  },
+  renderView: {
+    width: '90%',
+    backgroundColor: Colors.gray,
+    borderRadius: responsiveWidth(3),
+    padding: responsiveWidth(3),
+    margin: responsiveWidth(3),
   },
 });
 export default MortgageScreen;

@@ -12,7 +12,7 @@ import {
   Switch,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import LinearGradient from 'react-native-linear-gradient';
 // Constant files
 import {Strings} from '../../res/strings/Strings';
 import {fontFamily} from '../utils/fontFamily';
@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
   skipText: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(1.6),
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
   },
   text: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(2),
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     marginTop: responsiveWidth(10),
     width: responsiveWidth(70),
     textAlign: 'center',
@@ -114,14 +114,14 @@ const styles = StyleSheet.create({
     color: Colors.Text_Black,
     marginTop: responsiveWidth(10),
     fontSize: responsiveFontSize(3),
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     width: responsiveWidth(70),
     textAlign: 'center',
   },
   textsmall: {
     color: Colors.Text_Black,
     fontSize: responsiveFontSize(1.7),
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     marginTop: responsiveWidth(5),
     width: responsiveWidth(70),
     textAlign: 'center',

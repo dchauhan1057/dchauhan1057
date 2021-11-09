@@ -181,13 +181,15 @@ const BankBorrowerScreen = props => {
             I accept the terms of mortgage club
           </Text>
           <View style={styles.bottomView}>
-            <View style={styles.roundView}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.roundView}>
               <Image
                 source={Images.Right_Arrow}
                 style={styles.imageStyle}
                 resizeMode="contain"
               />
-            </View>
+            </TouchableOpacity>
             <NetButton
               onPress={() => navigation.navigate('RequestScreen')}
               text={Strings.NextStep}
@@ -215,11 +217,11 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(3),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(2),
     alignSelf: 'center',
     width: responsiveWidth(65),
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   personalStringText2: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(2),
     width: responsiveWidth(65),
     color: Colors.Dark_Gray,
@@ -236,7 +238,7 @@ const styles = StyleSheet.create({
     marginStart: responsiveWidth(10),
   },
   personalStringText1: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.6),
     alignSelf: 'center',
     width: responsiveWidth(80),

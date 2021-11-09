@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {View, StyleSheet, Text, TextInput, Image} from 'react-native';
+import {View, StyleSheet, Text, TextInput, Image, Platform} from 'react-native';
 // Library
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -21,7 +21,7 @@ const NetTextInput = props => {
         {props.firstIcon === '' ? null : (
           <Image
             source={props.firstIcon}
-            style={style.downArraowimageStyle}
+            style={[style.downArraowimageStyle, {}, props.firstIconstyle]}
             resizeMode="contain"
           />
         )}
@@ -39,6 +39,7 @@ const NetTextInput = props => {
         )}
       </View>
       <TextInput
+       maxLength= {props.maxLength}
         keyboardType={props.keyboardType}
         onSubmit={() => ref.onSubmit}
         ref={props.ref}
@@ -49,6 +50,8 @@ const NetTextInput = props => {
         style={[
           style.textInput,
           {
+            height:
+              Platform.OS === 'ios' ? responsiveWidth(12) : responsiveWidth(13),
             marginTop:
               props.title === '' ? responsiveWidth(0) : responsiveWidth(4),
             borderColor: props.error === '' ? 'transparent' : Colors.Red,
@@ -69,15 +72,15 @@ const NetTextInput = props => {
 //------------------------------------------------StyleSheet Call-----------------------------------------------------------------------
 const style = StyleSheet.create({
   errorStyle: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.5),
     color: Colors.Red,
-    marginStart: responsiveWidth(12),
+    marginStart: responsiveWidth(8.5),
     marginTop: responsiveWidth(2),
     width: '78%',
   },
   textStyle: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.7),
     color: Colors.Text_Black,
     marginStart: responsiveWidth(4),
@@ -85,7 +88,7 @@ const style = StyleSheet.create({
     width: '38%',
   },
   textInput: {
-    backgroundColor: Colors.TextInput_Background,
+    backgroundColor: Colors.gray,
     width: '91%',
     alignSelf: 'center',
     justifyContent: 'center',

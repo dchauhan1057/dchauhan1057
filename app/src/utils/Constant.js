@@ -16,6 +16,10 @@ export const nationalID = [
   {label: '+123', value: '+123'},
   {label: '+456', value: '+456'},
   {label: '+789', value: '+789'},
+  {label: '+789', value: '+789'},
+  {label: '+789', value: '+789'},
+  {label: '+789', value: '+789'},
+  {label: '+789', value: '+789'},
 ];
 // Array
 export const carsArray = [
@@ -67,5 +71,9 @@ export const bankArray = [
   {label: 'NORDEA Bank', value: 'NORDEA Bank'},
   {label: 'Danske Bank', value: 'Danske Bank'},
   {label: 'Nordea Direct', value: 'Nordea Direct'},
+  {label: 'Handelsbanken NUF', value: 'Handelsbanken NUF'},
+  {label: 'Handelsbanken NUF', value: 'Handelsbanken NUF'},
+  {label: 'Handelsbanken NUF', value: 'Handelsbanken NUF'},
+  {label: 'Handelsbanken NUF', value: 'Handelsbanken NUF'},
   {label: 'Handelsbanken NUF', value: 'Handelsbanken NUF'},
 ];

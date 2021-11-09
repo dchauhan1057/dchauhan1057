@@ -87,11 +87,11 @@ const style = StyleSheet.create({
     padding: responsiveWidth(3),
   },
   personalText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(1.7),
   },
   personalStringText: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(2),
     alignSelf: 'center',
     width: responsiveWidth(83),
@@ -99,7 +99,7 @@ const style = StyleSheet.create({
     color: Colors.Dark_Gray,
   },
   welcomestring3: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(1.6),
     alignSelf: 'center',
     width: responsiveWidth(83),
@@ -107,7 +107,7 @@ const style = StyleSheet.create({
     color: Colors.Dark_Gray,
   },
   welcomestring2: {
-    fontFamily: fontFamily.Roboto_Medium,
+    fontFamily: fontFamily.Poppins_Medium,
     fontSize: responsiveFontSize(3),
     alignSelf: 'center',
     width: responsiveWidth(78),
@@ -116,7 +116,7 @@ const style = StyleSheet.create({
     textAlign: 'center',
   },
   titleStringText: {
-    fontFamily: fontFamily.Roboto_Bold,
+    fontFamily: fontFamily.Poppins_Bold,
     fontSize: responsiveFontSize(5),
     paddingStart: responsiveWidth(5),
     marginTop: responsiveHeight(5),
@@ -125,7 +125,7 @@ const style = StyleSheet.create({
     textDecorationColor: '#979797',
   },
   textStyle: {
-    fontFamily: fontFamily.Roboto_Regular,
+    fontFamily: fontFamily.Poppins_Regular,
     fontSize: responsiveFontSize(1.6),
     color: Colors.Dark_Gray,
     marginStart: responsiveWidth(5),
